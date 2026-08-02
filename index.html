@@ -4,155 +4,399 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
- <title>Handyman & Electrical Services</title>
+  <title>Best Helps — Handyman & Electrical Services</title>
 
   <style>
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       padding: 24px;
       font-family: Arial, Helvetica, sans-serif;
       color: #ffffff;
-      text-align: center;
       background:
-        linear-gradient(rgba(8, 22, 38, 0.88), rgba(8, 22, 38, 0.94)),
+        linear-gradient(rgba(4, 22, 40, 0.94), rgba(3, 18, 34, 0.98)),
         linear-gradient(135deg, #173b5e, #071522);
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
     }
 
     .card {
       width: 100%;
-      max-width: 680px;
-      padding: 50px 35px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 22px;
+      padding: 46px 42px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 24px;
       background: rgba(255, 255, 255, 0.07);
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
     }
 
-    .icon {
-      font-size: 54px;
-      margin-bottom: 15px;
+    .header {
+      text-align: center;
     }
 
-   .website-address {
-  margin-bottom: 14px;
-  font-size: 24px;
-  font-weight: 800;
-  color: #ffffff;
-}
+    .icon {
+      margin-bottom: 16px;
+      font-size: 54px;
+      line-height: 1;
+    }
 
-.website-address strong {
-  color: #ff5a00;
-  font-size: 30px;
-}
+    .website-address {
+      margin-bottom: 20px;
+      color: #ffffff;
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
 
-h1 {
-  margin: 0;
-  color: #ffffff;
-  font-size: 64px;
-  font-weight: 900;
-  letter-spacing: 7px;
-  line-height: 1;
-  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
-}
+    .website-address .domain-name {
+      color: #ff5a00;
+      font-size: 34px;
+    }
 
-.services {
-  display: inline-block;
-  margin-top: 18px;
-  padding-bottom: 12px;
-  border-bottom: 4px solid #ff5a00;
-  color: #ffffff;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
+    .main-title {
+      display: inline-block;
+      margin: 0;
+      padding: 0 18px 14px;
+      border-bottom: 4px solid #ff5a00;
+      color: #ffffff;
+      font-size: 29px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      line-height: 1.25;
+      text-transform: uppercase;
+    }
+
+    .service-list {
+      width: 100%;
+      margin: 38px auto 34px;
+    }
+
+    .service-columns {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr 0.85fr;
+      gap: 18px 42px;
+    }
+
+    .service-column {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .service-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #ffffff;
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .checkmark {
+      display: inline-flex;
+      flex: 0 0 29px;
+      width: 29px;
+      height: 29px;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ff5a00;
+      border-radius: 50%;
+      color: #ff5a00;
+      font-size: 19px;
+      font-weight: 900;
+    }
 
     .coming-soon {
-      margin: 35px 0 12px;
+      margin-top: 38px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
+      text-align: center;
+    }
+
+    .coming-soon h2 {
+      margin: 0 0 14px;
       font-size: 30px;
     }
 
     .message {
-      margin: 0 auto 30px;
-      max-width: 500px;
+      max-width: 640px;
+      margin: 0 auto 28px;
+      color: #d9e2ea;
       font-size: 18px;
       line-height: 1.6;
-      color: #d9e2ea;
     }
 
-    .contact {
-      display: inline-block;
-      padding: 14px 24px;
-      border-radius: 10px;
-      color: #071522;
-      background: #f4c85a;
+    .contact-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .contact-button {
+      display: inline-flex;
+      min-height: 52px;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 23px;
+      border: 2px solid #ff5a00;
+      border-radius: 12px;
+      color: #ffffff;
+      background: #ff5a00;
       font-size: 17px;
-      font-weight: bold;
+      font-weight: 800;
       text-decoration: none;
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
     }
 
-    .contact:hover {
-      background: #ffd76d;
+    .contact-button:hover {
+      background: #e95000;
+      transform: translateY(-2px);
     }
 
-    .note {
+    .contact-button.secondary {
+      color: #ffffff;
+      background: transparent;
+    }
+
+    .contact-button.secondary:hover {
+      background: rgba(255, 90, 0, 0.15);
+    }
+
+    .preferred {
       margin-top: 18px;
-      font-size: 14px;
       color: #bdc9d4;
+      font-size: 14px;
+    }
+
+    @media (max-width: 850px) {
+      .service-columns {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .service-column:last-child {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
     }
 
     @media (max-width: 600px) {
+      body {
+        padding: 12px;
+      }
+
       .card {
-        padding: 40px 22px;
+        padding: 36px 22px;
+        border-radius: 18px;
       }
 
-      h1 {
-        font-size: 38px;
+      .icon {
+        font-size: 48px;
       }
 
-      .coming-soon {
+      .website-address {
+        font-size: 21px;
+      }
+
+      .website-address .domain-name {
+        font-size: 27px;
+      }
+
+      .main-title {
+        padding-right: 4px;
+        padding-left: 4px;
+        font-size: 22px;
+      }
+
+      .service-columns {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .service-column,
+      .service-column:last-child {
+        display: flex;
+        grid-column: auto;
+      }
+
+      .service-item {
+        font-size: 17px;
+      }
+
+      .coming-soon h2 {
         font-size: 26px;
+      }
+
+      .message {
+        font-size: 16px;
+      }
+
+      .contact-buttons {
+        flex-direction: column;
+      }
+
+      .contact-button {
+        width: 100%;
       }
     }
   </style>
 </head>
 
 <body>
-  <main class="card">
-    <div class="icon">💡</div>
+  <main class="page">
+    <section class="card">
 
+      <header class="header">
+        <div class="icon">💡</div>
 
-    <div class="website-address">
-  <span>www.</span><strong>besthelps</strong><span>.com</span>
-</div>
+        <div class="website-address">
+          www.<span class="domain-name">besthelps</span>.com
+        </div>
 
-<h1> " " </h1>
+        <h1 class="main-title">
+          Handyman &amp; Electrical Services
+        </h1>
+      </header>
 
-<div class="services">
-  HANDYMAN &amp; ELECTRICAL SERVICES
-</div>
+      <section class="service-list" aria-label="Services">
+        <div class="service-columns">
 
-    <h2 class="coming-soon">Our website is coming soon</h2>
+          <div class="service-column">
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Electrical Fixtures</span>
+            </div>
 
-    <p class="message">
-      We are currently building our new website.
-      Please contact us by email for service requests and estimates.
-    </p>
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Switches</span>
+            </div>
 
-    <a class="contact" href="mailto:services@besthelps.com">
-      services@besthelps.com
-    </a>
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Smart Switches</span>
+            </div>
 
-    <div class="note">
-      Email or text is preferred
-    </div>
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Outlets</span>
+            </div>
+
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Ceiling Fans</span>
+            </div>
+
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Lights</span>
+            </div>
+
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Doorbells</span>
+            </div>
+
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Garage Door Openers</span>
+            </div>
+          </div>
+
+          <div class="service-column">
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Faucets</span>
+            </div>
+
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Locks</span>
+            </div>
+
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Shelves</span>
+            </div>
+
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Appliances</span>
+            </div>
+
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Furniture Assembly</span>
+            </div>
+          </div>
+
+          <div class="service-column">
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Installation</span>
+            </div>
+
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Repair</span>
+            </div>
+
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>Replacement</span>
+            </div>
+
+            <div class="service-item">
+              <span class="checkmark">✓</span>
+              <span>And More</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="coming-soon">
+        <h2>Our website is coming soon</h2>
+
+        <p class="message">
+          We are currently building our new website.
+          Please contact us by email or text for service requests and estimates.
+        </p>
+
+        <div class="contact-buttons">
+          <a class="contact-button"
+             href="sms:+12244530785">
+            Text: 224-453-0785
+          </a>
+
+          <a class="contact-button secondary"
+             href="mailto:services@besthelps.com">
+            services@besthelps.com
+          </a>
+        </div>
+
+        <div class="preferred">
+          Preferred contact: Email or Text
+        </div>
+      </section>
+
+    </section>
   </main>
 </body>
 </html>
