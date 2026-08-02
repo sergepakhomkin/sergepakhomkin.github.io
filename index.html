@@ -70,10 +70,52 @@
       text-align: center;
     }
 
+    /* Кнопка-лампочка */
+    .bulb-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0 13px;
+      padding: 5px;
+      border: 0;
+      border-radius: 50%;
+      color: inherit;
+      background: transparent;
+      font: inherit;
+      cursor: pointer;
+      transition:
+        transform 0.2s ease,
+        filter 0.2s ease;
+    }
+
+    .bulb-button:hover {
+      transform: scale(1.12);
+      filter:
+        drop-shadow(0 0 8px rgba(255, 207, 67, 0.8))
+        drop-shadow(0 0 18px rgba(244, 91, 5, 0.45));
+    }
+
+    .bulb-button:active {
+      transform: scale(0.94);
+    }
+
+    .bulb-button:focus-visible {
+      outline: 3px solid var(--orange);
+      outline-offset: 5px;
+    }
+
     .bulb {
-      margin-bottom: 13px;
+      display: block;
       font-size: 55px;
       line-height: 1;
+      user-select: none;
+    }
+
+    .bulb-hint {
+      margin: -4px 0 13px;
+      color: #bac8d4;
+      font-size: 12px;
+      letter-spacing: 0.3px;
     }
 
     .website-address {
@@ -100,6 +142,233 @@
       letter-spacing: 1px;
       line-height: 1.25;
       text-transform: uppercase;
+    }
+
+    /* Эффект сварки */
+    .welding-effect {
+      position: relative;
+      width: min(680px, 94%);
+      height: 58px;
+      margin: 2px auto -8px;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .welding-effect.active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .metal-line {
+      position: absolute;
+      top: 25px;
+      right: 0;
+      left: 0;
+      height: 4px;
+      border-radius: 999px;
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.25) 7%,
+          #8b98a5 19%,
+          #e3ebf2 50%,
+          #8b98a5 81%,
+          rgba(255, 255, 255, 0.25) 93%,
+          transparent
+        );
+      box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.7),
+        0 0 6px rgba(255, 255, 255, 0.24);
+    }
+
+    .welding-effect.active .metal-line {
+      animation: metalHeat 3.1s ease-out 1;
+    }
+
+    .welding-head {
+      position: absolute;
+      top: 16px;
+      left: 3%;
+      width: 20px;
+      height: 20px;
+    }
+
+    .welding-effect.active .welding-head {
+      animation: weldingMove 3.1s ease-in-out 1 forwards;
+    }
+
+    .welding-arc {
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow:
+        0 0 5px #ffffff,
+        0 0 13px #a8efff,
+        0 0 28px #40cfff,
+        0 0 50px rgba(64, 207, 255, 0.95);
+    }
+
+    .welding-effect.active .welding-arc {
+      animation: weldingFlash 0.12s steps(2, end) infinite;
+    }
+
+    .spark {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #fff7bf;
+      box-shadow:
+        0 0 5px #ffffff,
+        0 0 10px #ff9500;
+      opacity: 0;
+    }
+
+    .welding-effect.active .spark-1 {
+      --spark-x: -48px;
+      --spark-y: 37px;
+      animation: sparkFly 0.63s 0.02s infinite;
+    }
+
+    .welding-effect.active .spark-2 {
+      --spark-x: -27px;
+      --spark-y: 48px;
+      animation: sparkFly 0.55s 0.13s infinite;
+    }
+
+    .welding-effect.active .spark-3 {
+      --spark-x: 18px;
+      --spark-y: 50px;
+      animation: sparkFly 0.68s 0.22s infinite;
+    }
+
+    .welding-effect.active .spark-4 {
+      --spark-x: 43px;
+      --spark-y: 35px;
+      animation: sparkFly 0.58s 0.31s infinite;
+    }
+
+    .welding-effect.active .spark-5 {
+      --spark-x: 60px;
+      --spark-y: 18px;
+      animation: sparkFly 0.76s 0.09s infinite;
+    }
+
+    .welding-effect.active .spark-6 {
+      --spark-x: -61px;
+      --spark-y: 20px;
+      animation: sparkFly 0.7s 0.27s infinite;
+    }
+
+    .welding-effect.active .spark-7 {
+      --spark-x: 30px;
+      --spark-y: 59px;
+      animation: sparkFly 0.65s 0.39s infinite;
+    }
+
+    .welding-effect.active .spark-8 {
+      --spark-x: -34px;
+      --spark-y: 56px;
+      animation: sparkFly 0.75s 0.45s infinite;
+    }
+
+    .welding-effect.active .spark-9 {
+      --spark-x: 72px;
+      --spark-y: 42px;
+      animation: sparkFly 0.79s 0.18s infinite;
+    }
+
+    .welding-effect.active .spark-10 {
+      --spark-x: -70px;
+      --spark-y: 43px;
+      animation: sparkFly 0.72s 0.37s infinite;
+    }
+
+    @keyframes weldingMove {
+      0% {
+        left: 3%;
+      }
+
+      45% {
+        left: calc(97% - 20px);
+      }
+
+      55% {
+        left: calc(97% - 20px);
+      }
+
+      100% {
+        left: 3%;
+      }
+    }
+
+    @keyframes weldingFlash {
+      0% {
+        opacity: 0.35;
+        transform: scale(0.72);
+      }
+
+      35% {
+        opacity: 1;
+        transform: scale(1.34);
+      }
+
+      67% {
+        opacity: 0.58;
+        transform: scale(0.9);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1.12);
+      }
+    }
+
+    @keyframes sparkFly {
+      0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(1);
+      }
+
+      12% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+        transform:
+          translate(var(--spark-x), var(--spark-y))
+          scale(0.15);
+      }
+    }
+
+    @keyframes metalHeat {
+      0% {
+        box-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.7),
+          0 0 4px rgba(255, 255, 255, 0.2);
+      }
+
+      35% {
+        box-shadow:
+          0 0 7px rgba(255, 255, 255, 0.8),
+          0 0 14px rgba(64, 207, 255, 0.45),
+          0 0 25px rgba(244, 91, 5, 0.35);
+      }
+
+      100% {
+        box-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.7),
+          0 0 4px rgba(255, 255, 255, 0.2);
+      }
     }
 
     .work-types {
@@ -144,7 +413,7 @@
       gap: 12px;
       color: var(--white);
       font-size: 19px;
-      font-weight: 750;
+      font-weight: 700;
       line-height: 1.25;
     }
 
@@ -229,8 +498,6 @@
     .contact-bar {
       display: grid;
       grid-template-columns: 1fr 1.45fr;
-      gap: 0;
-      margin-top: 0;
       background:
         linear-gradient(
           135deg,
@@ -332,6 +599,19 @@
         font-size: 21px;
       }
 
+      .welding-effect {
+        width: 98%;
+        height: 52px;
+      }
+
+      .metal-line {
+        top: 23px;
+      }
+
+      .welding-head {
+        top: 14px;
+      }
+
       .work-types {
         gap: 7px 11px;
         margin-top: 23px;
@@ -383,22 +663,18 @@
       }
     }
 
-    <div class="welding-effect" aria-hidden="true">
-  <div class="metal-line"></div>
-  <div class="welding-head">
-    <div class="welding-arc"></div>
+    @media (prefers-reduced-motion: reduce) {
+      .welding-effect.active .welding-head,
+      .welding-effect.active .welding-arc,
+      .welding-effect.active .spark,
+      .welding-effect.active .metal-line {
+        animation: none;
+      }
 
-    <span class="spark spark-1"></span>
-    <span class="spark spark-2"></span>
-    <span class="spark spark-3"></span>
-    <span class="spark spark-4"></span>
-    <span class="spark spark-5"></span>
-    <span class="spark spark-6"></span>
-    <span class="spark spark-7"></span>
-    <span class="spark spark-8"></span>
-  </div>
-</div>
-    
+      .welding-effect.active .welding-head {
+        left: 50%;
+      }
+    }
   </style>
 </head>
 
@@ -409,7 +685,18 @@
       <div class="main-content">
 
         <header class="header">
-          <div class="bulb" aria-hidden="true">💡</div>
+
+          <button class="bulb-button"
+                  id="weldingButton"
+                  type="button"
+                  aria-label="Start welding effect"
+                  aria-controls="weldingEffect">
+            <span class="bulb" aria-hidden="true">💡</span>
+          </button>
+
+          <div class="bulb-hint">
+            Click the bulb
+          </div>
 
           <div class="website-address">
             www.<strong>besthelps</strong>.com
@@ -419,22 +706,28 @@
             Handyman &amp; Electrical Services
           </h1>
 
-          <div class="welding-effect" aria-hidden="true">
-  <div class="metal-line"></div>
-  <div class="welding-head">
-    <div class="welding-arc"></div>
+          <div class="welding-effect"
+               id="weldingEffect"
+               aria-hidden="true">
 
-    <span class="spark spark-1"></span>
-    <span class="spark spark-2"></span>
-    <span class="spark spark-3"></span>
-    <span class="spark spark-4"></span>
-    <span class="spark spark-5"></span>
-    <span class="spark spark-6"></span>
-    <span class="spark spark-7"></span>
-    <span class="spark spark-8"></span>
-  </div>
-</div>
-          
+            <div class="metal-line"></div>
+
+            <div class="welding-head">
+              <div class="welding-arc"></div>
+
+              <span class="spark spark-1"></span>
+              <span class="spark spark-2"></span>
+              <span class="spark spark-3"></span>
+              <span class="spark spark-4"></span>
+              <span class="spark spark-5"></span>
+              <span class="spark spark-6"></span>
+              <span class="spark spark-7"></span>
+              <span class="spark spark-8"></span>
+              <span class="spark spark-9"></span>
+              <span class="spark spark-10"></span>
+            </div>
+          </div>
+
         </header>
 
         <div class="work-types" aria-label="Types of work">
@@ -584,5 +877,32 @@
 
     </section>
   </main>
+
+  <script>
+    const weldingButton = document.getElementById("weldingButton");
+    const weldingEffect = document.getElementById("weldingEffect");
+
+    let weldingTimer;
+
+    function startWelding() {
+      clearTimeout(weldingTimer);
+
+      /*
+        Удаление и повторное добавление класса позволяет
+        запускать анимацию заново при каждом нажатии.
+      */
+      weldingEffect.classList.remove("active");
+
+      void weldingEffect.offsetWidth;
+
+      weldingEffect.classList.add("active");
+
+      weldingTimer = setTimeout(() => {
+        weldingEffect.classList.remove("active");
+      }, 3200);
+    }
+
+    weldingButton.addEventListener("click", startWelding);
+  </script>
 </body>
 </html>
