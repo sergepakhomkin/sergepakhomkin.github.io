@@ -2,14 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <meta name="description"
+        content="Handyman and electrical services. Installation, repair, replacement, and assembly.">
 
   <title>Best Helps — Handyman & Electrical Services</title>
-  
+
+  <!-- Лампочка во вкладке браузера -->
   <link rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
- 
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+
   <style>
+    :root {
+      --navy: #061e36;
+      --navy-light: #142d45;
+      --orange: #f45b05;
+      --orange-dark: #d84d00;
+      --white: #ffffff;
+      --light-text: #d9e3ec;
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -23,73 +38,98 @@
       min-height: 100vh;
       padding: 24px;
       font-family: Arial, Helvetica, sans-serif;
-      color: #ffffff;
+      color: var(--white);
       background:
-        linear-gradient(rgba(4, 22, 40, 0.94), rgba(3, 18, 34, 0.98)),
+        linear-gradient(
+          rgba(3, 20, 37, 0.96),
+          rgba(2, 15, 29, 0.99)
+        ),
         linear-gradient(135deg, #173b5e, #071522);
     }
 
     .page {
       width: 100%;
-      max-width: 1080px;
+      max-width: 1120px;
       margin: 0 auto;
     }
 
     .card {
       width: 100%;
-      padding: 46px 42px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.19);
       border-radius: 24px;
-      background: rgba(255, 255, 255, 0.07);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      background: rgba(255, 255, 255, 0.065);
+      box-shadow: 0 22px 65px rgba(0, 0, 0, 0.38);
+    }
+
+    .main-content {
+      padding: 44px 46px 42px;
     }
 
     .header {
       text-align: center;
     }
 
-    .icon {
-      margin-bottom: 16px;
-      font-size: 54px;
+    .bulb {
+      margin-bottom: 13px;
+      font-size: 55px;
       line-height: 1;
     }
 
     .website-address {
-      margin-bottom: 20px;
-      color: #ffffff;
+      margin-bottom: 18px;
+      color: var(--white);
       font-size: 27px;
-      font-weight: 800;
-      letter-spacing: -1px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
     }
 
-    .website-address .domain-name {
-      color: #ff5a00;
+    .website-address strong {
+      color: var(--orange);
       font-size: 34px;
     }
 
     .main-title {
       display: inline-block;
       margin: 0;
-      padding: 0 18px 14px;
-      border-bottom: 4px solid #ff5a00;
-      color: #ffffff;
-      font-size: 29px;
+      padding: 0 26px 15px;
+      border-bottom: 4px solid var(--orange);
+      color: var(--white);
+      font-size: 30px;
       font-weight: 900;
       letter-spacing: 1px;
       line-height: 1.25;
       text-transform: uppercase;
     }
 
-    .service-list {
-      width: 100%;
-      margin: 38px auto 34px;
+    .work-types {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 21px;
+      margin: 27px 0 31px;
+      color: var(--orange);
+      font-size: 25px;
+      font-weight: 900;
+    }
+
+    .work-type {
+      white-space: nowrap;
+    }
+
+    .separator {
+      color: var(--white);
+      font-size: 18px;
+      line-height: 1.5;
     }
 
     .service-columns {
       display: grid;
-      grid-template-columns: 1.25fr 1fr 0.85fr;
+      grid-template-columns: 1fr 1fr 1.05fr;
       gap: 18px 42px;
+      width: 100%;
+      max-width: 970px;
+      margin: 0 auto;
     }
 
     .service-column {
@@ -102,42 +142,42 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      color: #ffffff;
+      color: var(--white);
       font-size: 19px;
-      font-weight: 700;
+      font-weight: 750;
       line-height: 1.25;
     }
 
     .checkmark {
       display: inline-flex;
-      flex: 0 0 29px;
-      width: 29px;
-      height: 29px;
+      flex: 0 0 30px;
+      width: 30px;
+      height: 30px;
       align-items: center;
       justify-content: center;
-      border: 2px solid #ff5a00;
+      border: 2px solid var(--orange);
       border-radius: 50%;
-      color: #ff5a00;
-      font-size: 19px;
+      color: var(--orange);
+      font-size: 20px;
       font-weight: 900;
     }
 
     .coming-soon {
-      margin-top: 38px;
-      padding-top: 32px;
+      margin-top: 42px;
+      padding-top: 33px;
       border-top: 1px solid rgba(255, 255, 255, 0.18);
       text-align: center;
     }
 
     .coming-soon h2 {
-      margin: 0 0 14px;
-      font-size: 30px;
+      margin: 0 0 13px;
+      font-size: 29px;
     }
 
     .message {
-      max-width: 640px;
-      margin: 0 auto 28px;
-      color: #d9e2ea;
+      max-width: 650px;
+      margin: 0 auto 27px;
+      color: var(--light-text);
       font-size: 18px;
       line-height: 1.6;
     }
@@ -151,43 +191,96 @@
 
     .contact-button {
       display: inline-flex;
-      min-height: 52px;
+      min-height: 54px;
       align-items: center;
       justify-content: center;
       padding: 14px 23px;
-      border: 2px solid #ff5a00;
+      border: 2px solid var(--orange);
       border-radius: 12px;
-      color: #ffffff;
-      background: #ff5a00;
+      color: var(--white);
+      background: var(--orange);
       font-size: 17px;
       font-weight: 800;
       text-decoration: none;
       transition:
-        transform 0.2s ease,
-        background 0.2s ease;
+        background 0.2s ease,
+        transform 0.2s ease;
     }
 
     .contact-button:hover {
-      background: #e95000;
+      background: var(--orange-dark);
       transform: translateY(-2px);
     }
 
     .contact-button.secondary {
-      color: #ffffff;
       background: transparent;
     }
 
     .contact-button.secondary:hover {
-      background: rgba(255, 90, 0, 0.15);
+      background: rgba(244, 91, 5, 0.14);
     }
 
     .preferred {
       margin-top: 18px;
-      color: #bdc9d4;
+      color: #bac8d4;
       font-size: 14px;
     }
 
-    @media (max-width: 850px) {
+    .contact-bar {
+      display: grid;
+      grid-template-columns: 1fr 1.45fr;
+      gap: 0;
+      margin-top: 0;
+      background:
+        linear-gradient(
+          135deg,
+          #062542,
+          #031a31
+        );
+      border-top: 4px solid var(--orange);
+    }
+
+    .contact-block {
+      display: flex;
+      min-height: 92px;
+      align-items: center;
+      gap: 17px;
+      padding: 21px 32px;
+    }
+
+    .contact-block + .contact-block {
+      border-left: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .contact-icon {
+      display: inline-flex;
+      flex: 0 0 48px;
+      width: 48px;
+      height: 48px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 13px;
+      background: var(--orange);
+      font-size: 25px;
+    }
+
+    .contact-link {
+      color: var(--white);
+      font-size: 21px;
+      font-weight: 800;
+      text-decoration: none;
+      overflow-wrap: anywhere;
+    }
+
+    .contact-link:hover {
+      color: #ffb07d;
+    }
+
+    .domain-link strong {
+      color: var(--orange);
+    }
+
+    @media (max-width: 900px) {
       .service-columns {
         grid-template-columns: 1fr 1fr;
       }
@@ -197,39 +290,61 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
       }
+
+      .contact-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-block + .contact-block {
+        border-top: 1px solid rgba(255, 255, 255, 0.18);
+        border-left: 0;
+      }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 650px) {
       body {
-        padding: 12px;
+        padding: 10px;
       }
 
       .card {
-        padding: 36px 22px;
         border-radius: 18px;
       }
 
-      .icon {
+      .main-content {
+        padding: 34px 20px 31px;
+      }
+
+      .bulb {
         font-size: 48px;
       }
 
       .website-address {
-        font-size: 21px;
+        font-size: 20px;
       }
 
-      .website-address .domain-name {
+      .website-address strong {
         font-size: 27px;
       }
 
       .main-title {
-        padding-right: 4px;
-        padding-left: 4px;
-        font-size: 22px;
+        padding-right: 5px;
+        padding-left: 5px;
+        font-size: 21px;
+      }
+
+      .work-types {
+        gap: 7px 11px;
+        margin-top: 23px;
+        font-size: 19px;
+      }
+
+      .separator {
+        font-size: 14px;
       }
 
       .service-columns {
         grid-template-columns: 1fr;
-        gap: 14px;
+        max-width: 390px;
       }
 
       .service-column,
@@ -243,7 +358,7 @@
       }
 
       .coming-soon h2 {
-        font-size: 26px;
+        font-size: 25px;
       }
 
       .message {
@@ -257,6 +372,15 @@
       .contact-button {
         width: 100%;
       }
+
+      .contact-block {
+        min-height: auto;
+        padding: 19px 21px;
+      }
+
+      .contact-link {
+        font-size: 17px;
+      }
     }
   </style>
 </head>
@@ -265,139 +389,164 @@
   <main class="page">
     <section class="card">
 
-      <header class="header">
-        <div class="icon">💡</div>
+      <div class="main-content">
 
-        <div class="website-address">
-          www.<span class="domain-name">besthelps</span>.com
+        <header class="header">
+          <div class="bulb" aria-hidden="true">💡</div>
+
+          <div class="website-address">
+            www.<strong>besthelps</strong>.com
+          </div>
+
+          <h1 class="main-title">
+            Handyman &amp; Electrical Services
+          </h1>
+        </header>
+
+        <div class="work-types" aria-label="Types of work">
+          <span class="work-type">Installation</span>
+          <span class="separator">●</span>
+
+          <span class="work-type">Repair</span>
+          <span class="separator">●</span>
+
+          <span class="work-type">Replacement</span>
+          <span class="separator">●</span>
+
+          <span class="work-type">Assembly</span>
         </div>
 
-        <h1 class="main-title">
-          Handyman &amp; Electrical Services
-        </h1>
-      </header>
+        <section class="service-list" aria-label="Our services">
+          <div class="service-columns">
 
-      <section class="service-list" aria-label="Services">
-        <div class="service-columns">
+            <div class="service-column">
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Electrical Fixtures</span>
+              </div>
 
-          <div class="service-column">
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Electrical Fixtures</span>
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Switches</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Smart Switches</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Outlets</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Ceiling Fans</span>
+              </div>
             </div>
 
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Switches</span>
+            <div class="service-column">
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Lights</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Doorbells</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Locks</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Shelves</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Appliances</span>
+              </div>
             </div>
 
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Smart Switches</span>
+            <div class="service-column">
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Furniture Assembly</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Garage Door Openers</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Faucets</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>And More</span>
+              </div>
             </div>
 
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Outlets</span>
-            </div>
+          </div>
+        </section>
 
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Ceiling Fans</span>
-            </div>
+        <section class="coming-soon">
+          <h2>Our website is coming soon</h2>
 
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Lights</span>
-            </div>
+          <p class="message">
+            We are currently building our full website.
+            Please contact us by email or text for service requests
+            and estimates.
+          </p>
 
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Doorbells</span>
-            </div>
+          <div class="contact-buttons">
+            <a class="contact-button"
+               href="sms:+12244530785">
+              Text: 224-453-0785
+            </a>
 
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Garage Door Openers</span>
-            </div>
+            <a class="contact-button secondary"
+               href="mailto:services@besthelps.com">
+              Email Us
+            </a>
           </div>
 
-          <div class="service-column">
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Faucets</span>
-            </div>
-
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Locks</span>
-            </div>
-
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Shelves</span>
-            </div>
-
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Appliances</span>
-            </div>
-
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Furniture Assembly</span>
-            </div>
+          <div class="preferred">
+            Preferred contact: Email or Text
           </div>
+        </section>
 
-          <div class="service-column">
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Installation</span>
-            </div>
+      </div>
 
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Repair</span>
-            </div>
+      <footer class="contact-bar">
 
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>Replacement</span>
-            </div>
+        <div class="contact-block">
+          <span class="contact-icon" aria-hidden="true">✉</span>
 
-            <div class="service-item">
-              <span class="checkmark">✓</span>
-              <span>And More</span>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <section class="coming-soon">
-        <h2>Our website is coming soon</h2>
-
-        <p class="message">
-          We are currently building our new website.
-          Please contact us by email or text for service requests and estimates.
-        </p>
-
-        <div class="contact-buttons">
-          <a class="contact-button"
-             href="sms:+12244530785">
-            Text: 224-453-0785
-          </a>
-
-          <a class="contact-button secondary"
+          <a class="contact-link"
              href="mailto:services@besthelps.com">
             services@besthelps.com
           </a>
         </div>
 
-        <div class="preferred">
-          Preferred contact: Email or Text
+        <div class="contact-block">
+          <span class="contact-icon" aria-hidden="true">🌐</span>
+
+          <a class="contact-link domain-link"
+             href="https://www.besthelps.com">
+            www.<strong>besthelps</strong>.com
+          </a>
         </div>
-      </section>
+
+      </footer>
 
     </section>
   </main>
