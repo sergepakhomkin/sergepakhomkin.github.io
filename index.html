@@ -79,7 +79,7 @@
       text-align: center;
     }
 
-    /* Кнопка-лампочка */
+    /* Лампочка-кнопка */
     .bulb-button {
       position: relative;
       display: inline-flex;
@@ -137,7 +137,7 @@
     }
 
     .bulb-button.welding {
-      animation: bulbPulse 0.32s ease-in-out infinite alternate;
+      animation: bulbPulse 0.28s ease-in-out infinite alternate;
     }
 
     .bulb {
@@ -151,17 +151,17 @@
 
     @keyframes bulbPulse {
       from {
-        transform: scale(0.96);
+        transform: scale(0.95);
         filter:
           drop-shadow(0 0 7px #fff5b5)
-          drop-shadow(0 0 14px #ff9a21);
+          drop-shadow(0 0 15px #ff9a21);
       }
 
       to {
-        transform: scale(1.08);
+        transform: scale(1.1);
         filter:
-          drop-shadow(0 0 15px #ffffff)
-          drop-shadow(0 0 32px #ff6a00);
+          drop-shadow(0 0 16px #ffffff)
+          drop-shadow(0 0 36px #ff5e00);
       }
     }
 
@@ -191,32 +191,24 @@
       text-transform: uppercase;
     }
 
-    /* Область случайной сварочной анимации */
-    .welding-stage {
-      position: relative;
-      width: min(880px, 100%);
-      height: 0;
-      margin: 0 auto;
-      overflow: visible;
-      opacity: 0;
-      pointer-events: none;
-      transition:
-        opacity 0.18s ease;
-    }
-
-    .welding-stage.active {
-      height: clamp(135px, 17vw, 175px);
-      margin-top: 8px;
-      opacity: 1;
-    }
-
-    .welding-canvas {
-      position: absolute;
+    /*
+      Canvas расположен поверх всего экрана.
+      Он не занимает место и не сдвигает страницу.
+    */
+    .welding-overlay {
+      position: fixed;
+      z-index: 9999;
       inset: 0;
       display: block;
-      width: 100%;
-      height: 100%;
-      overflow: visible;
+      width: 100vw;
+      height: 100vh;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.12s ease;
+    }
+
+    .welding-overlay.active {
+      opacity: 1;
     }
 
     .work-types {
@@ -447,10 +439,6 @@
         font-size: 21px;
       }
 
-      .welding-stage.active {
-        height: 135px;
-      }
-
       .work-types {
         gap: 7px 11px;
         margin-top: 23px;
@@ -505,6 +493,13 @@
 </head>
 
 <body>
+  <!-- Сварка поверх всей страницы -->
+  <canvas
+    class="welding-overlay"
+    id="weldingCanvas"
+    aria-hidden="true"
+  ></canvas>
+
   <main class="page">
     <section class="card">
 
@@ -517,7 +512,6 @@
             id="weldingButton"
             type="button"
             aria-label="Start welding effect"
-            aria-controls="weldingStage"
             title="Start welding"
           >
             <span class="bulb" aria-hidden="true">💡</span>
@@ -530,17 +524,6 @@
           <h1 class="main-title">
             Handyman &amp; Electrical Services
           </h1>
-
-          <div
-            class="welding-stage"
-            id="weldingStage"
-            aria-hidden="true"
-          >
-            <canvas
-              class="welding-canvas"
-              id="weldingCanvas"
-            ></canvas>
-          </div>
 
         </header>
 
@@ -703,21 +686,28 @@
   <script>
     "use strict";
 
-    const weldingButton = document.getElementById("weldingButton");
-    const weldingStage = document.getElementById("weldingStage");
-    const canvas = document.getElementById("weldingCanvas");
-    const ctx = canvas.getContext("2d");
+    const weldingButton =
+      document.getElementById("weldingButton");
+
+    const canvas =
+      document.getElementById("weldingCanvas");
+
+    const ctx =
+      canvas.getContext("2d");
+
+    const reducedMotion =
+      window.matchMedia("(prefers-reduced-motion: reduce)");
 
     let animationFrame = 0;
     let animationNumber = 0;
     let particles = [];
 
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    );
-
     function random(min, max) {
       return Math.random() * (max - min) + min;
+    }
+
+    function randomInteger(min, max) {
+      return Math.floor(random(min, max + 1));
     }
 
     function clamp(value, min, max) {
@@ -725,249 +715,401 @@
     }
 
     function resizeCanvas() {
-      const rectangle = weldingStage.getBoundingClientRect();
+      const width = window.innerWidth;
+      const height = window.innerHeight;
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
 
-      canvas.width = Math.max(1, Math.round(rectangle.width * ratio));
-      canvas.height = Math.max(1, Math.round(rectangle.height * ratio));
+      canvas.width = Math.round(width * ratio);
+      canvas.height = Math.round(height * ratio);
 
-      canvas.style.width = rectangle.width + "px";
-      canvas.style.height = rectangle.height + "px";
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
 
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
       return {
-        width: rectangle.width,
-        height: rectangle.height
+        width,
+        height
       };
     }
 
-    function cubicPoint(path, t) {
-      const inverse = 1 - t;
+    /*
+      Создаёт случайную сильно ломаную диагональ.
+      Используются обычные прямые отрезки,
+      поэтому повороты получаются резкими.
+    */
+    function createJaggedPath(width, height) {
+      const outside = 70;
 
-      return {
-        x:
-          inverse * inverse * inverse * path.start.x +
-          3 * inverse * inverse * t * path.control1.x +
-          3 * inverse * t * t * path.control2.x +
-          t * t * t * path.end.x,
-
-        y:
-          inverse * inverse * inverse * path.start.y +
-          3 * inverse * inverse * t * path.control1.y +
-          3 * inverse * t * t * path.control2.y +
-          t * t * t * path.end.y
-      };
-    }
-
-    function cubicTangent(path, t) {
-      const inverse = 1 - t;
-
-      const x =
-        3 * inverse * inverse *
-          (path.control1.x - path.start.x) +
-        6 * inverse * t *
-          (path.control2.x - path.control1.x) +
-        3 * t * t *
-          (path.end.x - path.control2.x);
-
-      const y =
-        3 * inverse * inverse *
-          (path.control1.y - path.start.y) +
-        6 * inverse * t *
-          (path.control2.y - path.control1.y) +
-        3 * t * t *
-          (path.end.y - path.control2.y);
-
-      const length = Math.hypot(x, y) || 1;
-
-      return {
-        x: x / length,
-        y: y / length
-      };
-    }
-
-    function createRandomDiagonalPath(width, height) {
-      const marginX = Math.max(26, width * 0.045);
-      const marginY = Math.max(20, height * 0.13);
-
-      /*
-        Четыре возможные диагонали:
-        слева-сверху → справа-снизу
-        справа-сверху → слева-снизу
-        слева-снизу → справа-сверху
-        справа-снизу → слева-сверху
-      */
-      const directions = [
+      const variants = [
         {
-          start: { x: marginX, y: marginY },
-          end: { x: width - marginX, y: height - marginY }
+          start: {
+            x: -outside,
+            y: random(height * 0.03, height * 0.28)
+          },
+          end: {
+            x: width + outside,
+            y: random(height * 0.72, height * 0.97)
+          }
         },
         {
-          start: { x: width - marginX, y: marginY },
-          end: { x: marginX, y: height - marginY }
+          start: {
+            x: width + outside,
+            y: random(height * 0.03, height * 0.28)
+          },
+          end: {
+            x: -outside,
+            y: random(height * 0.72, height * 0.97)
+          }
         },
         {
-          start: { x: marginX, y: height - marginY },
-          end: { x: width - marginX, y: marginY }
+          start: {
+            x: -outside,
+            y: random(height * 0.72, height * 0.97)
+          },
+          end: {
+            x: width + outside,
+            y: random(height * 0.03, height * 0.28)
+          }
         },
         {
-          start: { x: width - marginX, y: height - marginY },
-          end: { x: marginX, y: marginY }
+          start: {
+            x: width + outside,
+            y: random(height * 0.72, height * 0.97)
+          },
+          end: {
+            x: -outside,
+            y: random(height * 0.03, height * 0.28)
+          }
         }
       ];
 
       const selected =
-        directions[Math.floor(Math.random() * directions.length)];
+        variants[randomInteger(0, variants.length - 1)];
 
-      const start = {
-        x: selected.start.x + random(-12, 12),
-        y: selected.start.y + random(-8, 8)
-      };
-
-      const end = {
-        x: selected.end.x + random(-12, 12),
-        y: selected.end.y + random(-8, 8)
-      };
+      const start = selected.start;
+      const end = selected.end;
 
       const dx = end.x - start.x;
       const dy = end.y - start.y;
-      const length = Math.hypot(dx, dy) || 1;
+      const directLength = Math.hypot(dx, dy) || 1;
 
-      const normalX = -dy / length;
-      const normalY = dx / length;
+      const normalX = -dy / directLength;
+      const normalY = dx / directLength;
 
-      const curveAmount1 =
-        random(-0.42, 0.42) * Math.min(width, height);
+      const pointCount =
+        randomInteger(9, 14);
 
-      const curveAmount2 =
-        random(-0.42, 0.42) * Math.min(width, height);
+      const points = [start];
 
-      const control1 = {
-        x:
-          start.x +
-          dx * random(0.22, 0.38) +
-          normalX * curveAmount1,
+      const maximumOffset =
+        Math.min(width, height) * random(0.11, 0.23);
 
-        y:
-          start.y +
-          dy * random(0.22, 0.38) +
-          normalY * curveAmount1
-      };
+      let previousSide =
+        Math.random() < 0.5 ? -1 : 1;
 
-      const control2 = {
-        x:
-          start.x +
-          dx * random(0.62, 0.82) +
-          normalX * curveAmount2,
+      for (
+        let index = 1;
+        index < pointCount - 1;
+        index += 1
+      ) {
+        const baseT =
+          index / (pointCount - 1);
 
-        y:
-          start.y +
-          dy * random(0.62, 0.82) +
-          normalY * curveAmount2
-      };
+        const unevenT = clamp(
+          baseT +
+            random(
+              -0.032,
+              0.032
+            ),
+          0.03,
+          0.97
+        );
+
+        /*
+          Сторона почти всегда меняется,
+          создавая сильный зигзаг.
+        */
+        if (Math.random() < 0.84) {
+          previousSide *= -1;
+        }
+
+        const offset =
+          previousSide *
+          random(
+            maximumOffset * 0.38,
+            maximumOffset
+          );
+
+        const parallelJitter =
+          random(
+            -directLength * 0.018,
+            directLength * 0.018
+          );
+
+        points.push({
+          x:
+            start.x +
+            dx * unevenT +
+            normalX * offset +
+            (dx / directLength) * parallelJitter,
+
+          y:
+            start.y +
+            dy * unevenT +
+            normalY * offset +
+            (dy / directLength) * parallelJitter
+        });
+      }
+
+      points.push(end);
+
+      const segments = [];
+      let totalLength = 0;
+
+      for (
+        let index = 0;
+        index < points.length - 1;
+        index += 1
+      ) {
+        const first = points[index];
+        const second = points[index + 1];
+
+        const segmentX = second.x - first.x;
+        const segmentY = second.y - first.y;
+        const segmentLength =
+          Math.hypot(segmentX, segmentY) || 1;
+
+        segments.push({
+          start: first,
+          end: second,
+          dx: segmentX,
+          dy: segmentY,
+          length: segmentLength
+        });
+
+        totalLength += segmentLength;
+      }
 
       return {
-        start,
-        control1,
-        control2,
-        end
+        points,
+        segments,
+        totalLength
       };
     }
 
-    function tracePath(path, maximumT, color, width, blur) {
-      const samples = 110;
-      const count = Math.max(
-        2,
-        Math.floor(samples * clamp(maximumT, 0, 1))
-      );
+    function getPointOnPath(path, progress) {
+      const targetDistance =
+        clamp(progress, 0, 1) * path.totalLength;
+
+      let travelled = 0;
+
+      for (const segment of path.segments) {
+        if (
+          travelled + segment.length >= targetDistance
+        ) {
+          const localDistance =
+            targetDistance - travelled;
+
+          const localProgress =
+            localDistance / segment.length;
+
+          return {
+            x:
+              segment.start.x +
+              segment.dx * localProgress,
+
+            y:
+              segment.start.y +
+              segment.dy * localProgress,
+
+            tangentX:
+              segment.dx / segment.length,
+
+            tangentY:
+              segment.dy / segment.length
+          };
+        }
+
+        travelled += segment.length;
+      }
+
+      const last =
+        path.segments[path.segments.length - 1];
+
+      return {
+        x: last.end.x,
+        y: last.end.y,
+        tangentX: last.dx / last.length,
+        tangentY: last.dy / last.length
+      };
+    }
+
+    function drawPathUntil(
+      path,
+      progress,
+      color,
+      lineWidth,
+      blur
+    ) {
+      const targetDistance =
+        clamp(progress, 0, 1) * path.totalLength;
+
+      let remaining = targetDistance;
 
       ctx.save();
       ctx.beginPath();
 
-      const first = cubicPoint(path, 0);
-      ctx.moveTo(first.x, first.y);
+      ctx.moveTo(
+        path.points[0].x,
+        path.points[0].y
+      );
 
-      for (let index = 1; index <= count; index += 1) {
-        const t = (index / samples) * maximumT;
-        const point = cubicPoint(path, t);
-        ctx.lineTo(point.x, point.y);
+      for (const segment of path.segments) {
+        if (remaining <= 0) {
+          break;
+        }
+
+        if (remaining >= segment.length) {
+          ctx.lineTo(
+            segment.end.x,
+            segment.end.y
+          );
+
+          remaining -= segment.length;
+        } else {
+          const localProgress =
+            remaining / segment.length;
+
+          ctx.lineTo(
+            segment.start.x +
+              segment.dx * localProgress,
+
+            segment.start.y +
+              segment.dy * localProgress
+          );
+
+          remaining = 0;
+        }
       }
 
       ctx.lineCap = "round";
-      ctx.lineJoin = "round";
+
+      /*
+        Miter создаёт резкие углы.
+      */
+      ctx.lineJoin = "miter";
+      ctx.miterLimit = 14;
+
+      ctx.lineWidth = lineWidth;
       ctx.strokeStyle = color;
-      ctx.lineWidth = width;
       ctx.shadowColor = color;
       ctx.shadowBlur = blur;
       ctx.stroke();
       ctx.restore();
     }
 
-    function drawMetalPath(path) {
-      tracePath(
+    function drawMetalLine(path, opacity) {
+      drawPathUntil(
         path,
         1,
-        "rgba(153, 170, 182, 0.34)",
-        5,
+        `rgba(136, 150, 164, ${0.25 * opacity})`,
+        6,
         2
       );
 
-      tracePath(
+      drawPathUntil(
         path,
         1,
-        "rgba(235, 243, 249, 0.23)",
-        1.4,
+        `rgba(235, 244, 251, ${0.19 * opacity})`,
+        1.5,
         0
       );
     }
 
-    function drawHotSeam(path, progress) {
-      tracePath(
+    function drawHotSeam(path, progress, opacity) {
+      drawPathUntil(
         path,
         progress,
-        "rgba(255, 63, 0, 0.24)",
-        13,
-        20
+        `rgba(255, 35, 0, ${0.28 * opacity})`,
+        18,
+        27
       );
 
-      tracePath(
+      drawPathUntil(
         path,
         progress,
-        "rgba(255, 105, 0, 0.78)",
-        6,
+        `rgba(255, 78, 0, ${0.7 * opacity})`,
+        9,
+        19
+      );
+
+      drawPathUntil(
+        path,
+        progress,
+        `rgba(255, 159, 22, ${0.96 * opacity})`,
+        4.5,
         13
       );
 
-      tracePath(
+      drawPathUntil(
         path,
         progress,
-        "rgba(255, 231, 149, 0.96)",
-        2.2,
-        8
+        `rgba(255, 247, 190, ${0.98 * opacity})`,
+        1.7,
+        7
       );
     }
 
-    function createParticle(x, y, tangent, type) {
-      const baseAngle = Math.atan2(tangent.y, tangent.x);
+    function createParticle(
+      x,
+      y,
+      tangentX,
+      tangentY,
+      type
+    ) {
+      const directionAngle =
+        Math.atan2(tangentY, tangentX);
 
-      /*
-        Частицы разлетаются в разные стороны,
-        но часть движения сохраняет направление сварки.
-      */
       const side =
         Math.random() < 0.5 ? -1 : 1;
 
       const angle =
-        baseAngle +
-        side * random(0.45, 2.45) +
-        random(-0.45, 0.45);
+        directionAngle +
+        side * random(0.38, 2.75) +
+        random(-0.55, 0.55);
 
-      const isMolten = type === "molten";
+      const molten =
+        type === "molten";
 
-      const speed = isMolten
-        ? random(95, 285)
-        : random(190, 580);
+      const heavy =
+        type === "heavy";
+
+      let speed;
+      let life;
+      let size;
+      let gravity;
+      let drag;
+
+      if (heavy) {
+        speed = random(110, 390);
+        life = random(1.0, 2.1);
+        size = random(5.5, 11);
+        gravity = random(650, 1050);
+        drag = random(0.975, 0.988);
+      } else if (molten) {
+        speed = random(170, 520);
+        life = random(0.72, 1.65);
+        size = random(3.2, 7.8);
+        gravity = random(430, 780);
+        drag = random(0.965, 0.984);
+      } else {
+        speed = random(370, 1050);
+        life = random(0.28, 0.95);
+        size = random(1.1, 3.8);
+        gravity = random(180, 520);
+        drag = random(0.945, 0.975);
+      }
 
       return {
         type,
@@ -975,79 +1117,104 @@
         y,
         previousX: x,
         previousY: y,
+
         velocityX:
           Math.cos(angle) * speed +
-          tangent.x * random(15, 100),
+          tangentX * random(20, 170),
 
         velocityY:
           Math.sin(angle) * speed +
-          tangent.y * random(10, 70),
+          tangentY * random(10, 130),
 
-        gravity: isMolten
-          ? random(350, 620)
-          : random(170, 400),
+        gravity,
+        drag,
+        life,
+        maximumLife: life,
+        size,
 
-        drag: isMolten
-          ? random(0.972, 0.987)
-          : random(0.955, 0.978),
-
-        life: isMolten
-          ? random(0.68, 1.42)
-          : random(0.32, 0.82),
-
-        maximumLife: 0,
-
-        size: isMolten
-          ? random(3.3, 7.2)
-          : random(1.1, 3.4),
-
-        rotation: random(0, Math.PI * 2),
-
-        rotationSpeed: random(-12, 12),
-
-        colorChoice: Math.random()
+        orange:
+          randomInteger(105, 220)
       };
     }
 
-    function emitParticles(position, tangent, intensity) {
-      const sparkCount = Math.floor(random(5, 10) * intensity);
-      const moltenCount = Math.floor(random(2, 6) * intensity);
+    function emitParticles(position, intensity) {
+      const tangentX = position.tangentX;
+      const tangentY = position.tangentY;
 
-      for (let index = 0; index < sparkCount; index += 1) {
-        const particle = createParticle(
-          position.x + random(-4, 4),
-          position.y + random(-4, 4),
-          tangent,
-          "spark"
+      const sparkCount =
+        Math.floor(random(12, 21) * intensity);
+
+      const moltenCount =
+        Math.floor(random(5, 11) * intensity);
+
+      const heavyCount =
+        Math.floor(random(1, 4) * intensity);
+
+      for (
+        let index = 0;
+        index < sparkCount;
+        index += 1
+      ) {
+        particles.push(
+          createParticle(
+            position.x + random(-7, 7),
+            position.y + random(-7, 7),
+            tangentX,
+            tangentY,
+            "spark"
+          )
         );
-
-        particle.maximumLife = particle.life;
-        particles.push(particle);
       }
 
-      for (let index = 0; index < moltenCount; index += 1) {
-        const particle = createParticle(
-          position.x + random(-5, 5),
-          position.y + random(-5, 5),
-          tangent,
-          "molten"
+      for (
+        let index = 0;
+        index < moltenCount;
+        index += 1
+      ) {
+        particles.push(
+          createParticle(
+            position.x + random(-8, 8),
+            position.y + random(-8, 8),
+            tangentX,
+            tangentY,
+            "molten"
+          )
         );
+      }
 
-        particle.maximumLife = particle.life;
-        particles.push(particle);
+      for (
+        let index = 0;
+        index < heavyCount;
+        index += 1
+      ) {
+        particles.push(
+          createParticle(
+            position.x + random(-6, 6),
+            position.y + random(-6, 6),
+            tangentX,
+            tangentY,
+            "heavy"
+          )
+        );
       }
 
       /*
-        Защита от чрезмерного количества частиц
-        на слабых телефонах.
+        Ограничение для производительности телефона.
       */
-      if (particles.length > 620) {
-        particles.splice(0, particles.length - 620);
+      if (particles.length > 1250) {
+        particles.splice(
+          0,
+          particles.length - 1250
+        );
       }
     }
 
     function updateParticles(deltaTime) {
-      for (let index = particles.length - 1; index >= 0; index -= 1) {
+      for (
+        let index = particles.length - 1;
+        index >= 0;
+        index -= 1
+      ) {
         const particle = particles[index];
 
         particle.life -= deltaTime;
@@ -1070,13 +1237,14 @@
           deltaTime * 60
         );
 
-        particle.velocityY += particle.gravity * deltaTime;
+        particle.velocityY +=
+          particle.gravity * deltaTime;
 
-        particle.x += particle.velocityX * deltaTime;
-        particle.y += particle.velocityY * deltaTime;
+        particle.x +=
+          particle.velocityX * deltaTime;
 
-        particle.rotation +=
-          particle.rotationSpeed * deltaTime;
+        particle.y +=
+          particle.velocityY * deltaTime;
       }
     }
 
@@ -1087,20 +1255,26 @@
         1
       );
 
-      const speed = Math.hypot(
-        particle.velocityX,
-        particle.velocityY
-      );
+      const speed =
+        Math.hypot(
+          particle.velocityX,
+          particle.velocityY
+        );
 
-      const trailScale = clamp(speed / 310, 0.7, 2.5);
+      const trailMultiplier =
+        clamp(speed / 330, 1, 3.6);
 
       const tailX =
         particle.x -
-        particle.velocityX * 0.018 * trailScale;
+        particle.velocityX *
+          0.022 *
+          trailMultiplier;
 
       const tailY =
         particle.y -
-        particle.velocityY * 0.018 * trailScale;
+        particle.velocityY *
+          0.022 *
+          trailMultiplier;
 
       ctx.save();
 
@@ -1110,18 +1284,19 @@
 
       ctx.lineCap = "round";
       ctx.lineWidth = particle.size;
-      ctx.strokeStyle =
-        `rgba(255, ${Math.round(random(175, 245))}, 70, ${alpha})`;
 
-      ctx.shadowColor = "#ff7a00";
-      ctx.shadowBlur = 10;
+      ctx.strokeStyle =
+        `rgba(255, ${particle.orange}, 35, ${alpha})`;
+
+      ctx.shadowColor = "#ff6a00";
+      ctx.shadowBlur = 13;
       ctx.stroke();
 
       ctx.beginPath();
       ctx.arc(
         particle.x,
         particle.y,
-        particle.size * 0.65,
+        particle.size * 0.75,
         0,
         Math.PI * 2
       );
@@ -1130,7 +1305,7 @@
         `rgba(255, 255, 225, ${alpha})`;
 
       ctx.shadowColor = "#ffffff";
-      ctx.shadowBlur = 8;
+      ctx.shadowBlur = 10;
       ctx.fill();
 
       ctx.restore();
@@ -1143,52 +1318,64 @@
         1
       );
 
-      const speed = Math.hypot(
-        particle.velocityX,
-        particle.velocityY
-      );
+      const speed =
+        Math.hypot(
+          particle.velocityX,
+          particle.velocityY
+        );
 
-      const tailLength = clamp(speed * 0.032, 5, 18);
+      const angle =
+        Math.atan2(
+          particle.velocityY,
+          particle.velocityX
+        );
 
-      const angle = Math.atan2(
-        particle.velocityY,
-        particle.velocityX
-      );
+      const heavy =
+        particle.type === "heavy";
+
+      const tailLength =
+        clamp(
+          speed * (heavy ? 0.026 : 0.034),
+          heavy ? 10 : 7,
+          heavy ? 30 : 24
+        );
 
       ctx.save();
       ctx.translate(particle.x, particle.y);
       ctx.rotate(angle);
 
-      const gradient = ctx.createLinearGradient(
-        -tailLength,
-        0,
-        particle.size,
-        0
-      );
+      const gradient =
+        ctx.createLinearGradient(
+          -tailLength,
+          0,
+          particle.size,
+          0
+        );
 
       gradient.addColorStop(
         0,
-        `rgba(255, 48, 0, 0)`
+        "rgba(255, 30, 0, 0)"
       );
 
       gradient.addColorStop(
-        0.45,
-        `rgba(255, 80, 0, ${alpha * 0.75})`
+        0.35,
+        `rgba(255, 45, 0, ${alpha * 0.75})`
       );
 
       gradient.addColorStop(
-        0.75,
-        `rgba(255, 172, 20, ${alpha})`
+        0.7,
+        `rgba(255, 126, 0, ${alpha})`
       );
 
       gradient.addColorStop(
         1,
-        `rgba(255, 255, 220, ${alpha})`
+        `rgba(255, 255, 210, ${alpha})`
       );
 
       ctx.beginPath();
+
       ctx.ellipse(
-        -tailLength * 0.2,
+        -tailLength * 0.25,
         0,
         tailLength,
         particle.size,
@@ -1199,27 +1386,28 @@
 
       ctx.fillStyle = gradient;
       ctx.shadowColor =
-        particle.colorChoice > 0.5
-          ? "#ff3c00"
-          : "#ff9d00";
+        heavy ? "#ff3000" : "#ff7900";
 
-      ctx.shadowBlur = 15;
+      ctx.shadowBlur =
+        heavy ? 22 : 16;
+
       ctx.fill();
 
       ctx.beginPath();
+
       ctx.arc(
         0,
         0,
-        particle.size * 0.72,
+        particle.size * 0.8,
         0,
         Math.PI * 2
       );
 
       ctx.fillStyle =
-        `rgba(255, 245, 190, ${alpha})`;
+        `rgba(255, 245, 185, ${alpha})`;
 
       ctx.shadowColor = "#ffffff";
-      ctx.shadowBlur = 9;
+      ctx.shadowBlur = 11;
       ctx.fill();
 
       ctx.restore();
@@ -1227,50 +1415,60 @@
 
     function drawParticles() {
       for (const particle of particles) {
-        if (particle.type === "molten") {
-          drawMoltenParticle(particle);
-        } else {
+        if (particle.type === "spark") {
           drawSpark(particle);
+        } else {
+          drawMoltenParticle(particle);
         }
       }
     }
 
-    function drawWeldingArc(position, tangent, flash) {
-      const normalX = -tangent.y;
-      const normalY = tangent.x;
+    function drawWeldingArc(position) {
+      const normalX =
+        -position.tangentY;
+
+      const normalY =
+        position.tangentX;
+
+      const flicker =
+        random(0.7, 1.35);
 
       ctx.save();
 
       /*
-        Короткая светящаяся дуга,
-        расположенная поперёк направления движения.
+        Электрическая дуга поперёк линии.
       */
       ctx.beginPath();
+
       ctx.moveTo(
-        position.x - normalX * 9,
-        position.y - normalY * 9
+        position.x - normalX * 12,
+        position.y - normalY * 12
       );
 
       ctx.lineTo(
-        position.x + normalX * 9,
-        position.y + normalY * 9
+        position.x + normalX * 12,
+        position.y + normalY * 12
       );
 
       ctx.lineCap = "round";
-      ctx.lineWidth = random(1.5, 3.2);
-      ctx.strokeStyle = "rgba(190, 245, 255, 0.95)";
-      ctx.shadowColor = "#5ce7ff";
-      ctx.shadowBlur = 18 + flash * 18;
+      ctx.lineWidth = random(1.7, 4);
+
+      ctx.strokeStyle =
+        "rgba(205, 250, 255, 0.98)";
+
+      ctx.shadowColor = "#4fe5ff";
+      ctx.shadowBlur = 22 * flicker;
       ctx.stroke();
 
-      const glow = ctx.createRadialGradient(
-        position.x,
-        position.y,
-        0,
-        position.x,
-        position.y,
-        34 + flash * 14
-      );
+      const glow =
+        ctx.createRadialGradient(
+          position.x,
+          position.y,
+          0,
+          position.x,
+          position.y,
+          57 * flicker
+        );
 
       glow.addColorStop(
         0,
@@ -1278,30 +1476,31 @@
       );
 
       glow.addColorStop(
-        0.12,
-        "rgba(214, 250, 255, 0.98)"
+        0.1,
+        "rgba(220, 252, 255, 1)"
       );
 
       glow.addColorStop(
-        0.33,
-        "rgba(66, 209, 255, 0.8)"
+        0.28,
+        "rgba(58, 210, 255, 0.9)"
       );
 
       glow.addColorStop(
-        0.62,
-        "rgba(255, 108, 0, 0.27)"
+        0.55,
+        "rgba(255, 112, 0, 0.31)"
       );
 
       glow.addColorStop(
         1,
-        "rgba(255, 70, 0, 0)"
+        "rgba(255, 45, 0, 0)"
       );
 
       ctx.beginPath();
+
       ctx.arc(
         position.x,
         position.y,
-        34 + flash * 14,
+        57 * flicker,
         0,
         Math.PI * 2
       );
@@ -1310,17 +1509,18 @@
       ctx.fill();
 
       ctx.beginPath();
+
       ctx.arc(
         position.x,
         position.y,
-        4.5 + flash * 3,
+        5.5 * flicker,
         0,
         Math.PI * 2
       );
 
       ctx.fillStyle = "#ffffff";
-      ctx.shadowColor = "#bdf6ff";
-      ctx.shadowBlur = 22;
+      ctx.shadowColor = "#d6fbff";
+      ctx.shadowBlur = 28;
       ctx.fill();
 
       ctx.restore();
@@ -1328,49 +1528,149 @@
 
     function startWelding() {
       animationNumber += 1;
-      const currentAnimation = animationNumber;
+
+      const currentAnimation =
+        animationNumber;
 
       cancelAnimationFrame(animationFrame);
+
       particles = [];
 
-      weldingStage.classList.add("active");
+      canvas.classList.add("active");
       weldingButton.classList.add("welding");
 
-      requestAnimationFrame(() => {
-        if (currentAnimation !== animationNumber) {
-          return;
-        }
+      const dimensions =
+        resizeCanvas();
 
-        const dimensions = resizeCanvas();
-        const path = createRandomDiagonalPath(
+      const path =
+        createJaggedPath(
           dimensions.width,
           dimensions.height
         );
 
-        const duration = reducedMotion.matches
-          ? 700
-          : random(2700, 3900);
+      const duration =
+        reducedMotion.matches
+          ? 900
+          : random(3200, 4700);
 
-        const particleFinishTime = 1050;
-        let previousTime = performance.now();
-        const startTime = previousTime;
-        let lastEmission = 0;
+      const particleEndDelay =
+        reducedMotion.matches
+          ? 300
+          : 1800;
 
-        function animate(currentTime) {
-          if (currentAnimation !== animationNumber) {
-            return;
+      let previousTime =
+        performance.now();
+
+      const startTime =
+        previousTime;
+
+      let lastEmissionTime = 0;
+
+      function animate(currentTime) {
+        if (
+          currentAnimation !== animationNumber
+        ) {
+          return;
+        }
+
+        const deltaTime = clamp(
+          (currentTime - previousTime) / 1000,
+          0,
+          0.035
+        );
+
+        previousTime = currentTime;
+
+        const elapsed =
+          currentTime - startTime;
+
+        const progress =
+          clamp(elapsed / duration, 0, 1);
+
+        const fadeStart =
+          duration + 450;
+
+        const fadeEnd =
+          duration + particleEndDelay;
+
+        const finalOpacity =
+          elapsed <= fadeStart
+            ? 1
+            : clamp(
+                1 -
+                  (elapsed - fadeStart) /
+                    Math.max(
+                      1,
+                      fadeEnd - fadeStart
+                    ),
+                0,
+                1
+              );
+
+        ctx.clearRect(
+          0,
+          0,
+          dimensions.width,
+          dimensions.height
+        );
+
+        drawMetalLine(
+          path,
+          finalOpacity
+        );
+
+        drawHotSeam(
+          path,
+          progress,
+          finalOpacity
+        );
+
+        if (progress < 1) {
+          const position =
+            getPointOnPath(path, progress);
+
+          drawWeldingArc(position);
+
+          if (
+            !reducedMotion.matches &&
+            currentTime - lastEmissionTime > 13
+          ) {
+            const isLargeBurst =
+              Math.random() < 0.2;
+
+            const intensity =
+              isLargeBurst
+                ? random(1.8, 3)
+                : random(0.85, 1.3);
+
+            emitParticles(
+              position,
+              intensity
+            );
+
+            lastEmissionTime =
+              currentTime;
           }
+        }
 
-          const deltaTime = clamp(
-            (currentTime - previousTime) / 1000,
-            0,
-            0.035
+        updateParticles(deltaTime);
+        drawParticles();
+
+        if (
+          progress < 1 ||
+          particles.length > 0 ||
+          elapsed < fadeEnd
+        ) {
+          animationFrame =
+            requestAnimationFrame(animate);
+        } else {
+          weldingButton.classList.remove(
+            "welding"
           );
 
-          previousTime = currentTime;
-
-          const elapsed = currentTime - startTime;
-          const progress = clamp(elapsed / duration, 0, 1);
+          canvas.classList.remove(
+            "active"
+          );
 
           ctx.clearRect(
             0,
@@ -1378,73 +1678,11 @@
             dimensions.width,
             dimensions.height
           );
-
-          drawMetalPath(path);
-          drawHotSeam(path, progress);
-
-          if (progress < 1) {
-            const position = cubicPoint(path, progress);
-            const tangent = cubicTangent(path, progress);
-
-            const flicker =
-              0.55 +
-              Math.random() * 0.45;
-
-            drawWeldingArc(
-              position,
-              tangent,
-              flicker
-            );
-
-            /*
-              Создаём много частиц несколько раз
-              за один кадр для плотного эффекта.
-            */
-            if (
-              !reducedMotion.matches &&
-              currentTime - lastEmission > 18
-            ) {
-              const intensity =
-                Math.random() < 0.18 ? 2.2 : 1;
-
-              emitParticles(
-                position,
-                tangent,
-                intensity
-              );
-
-              lastEmission = currentTime;
-            }
-          }
-
-          updateParticles(deltaTime);
-          drawParticles();
-
-          if (
-            progress < 1 ||
-            particles.length > 0 ||
-            elapsed < duration + particleFinishTime
-          ) {
-            animationFrame = requestAnimationFrame(animate);
-          } else {
-            weldingButton.classList.remove("welding");
-
-            window.setTimeout(() => {
-              if (currentAnimation === animationNumber) {
-                weldingStage.classList.remove("active");
-                ctx.clearRect(
-                  0,
-                  0,
-                  dimensions.width,
-                  dimensions.height
-                );
-              }
-            }, 350);
-          }
         }
+      }
 
-        animationFrame = requestAnimationFrame(animate);
-      });
+      animationFrame =
+        requestAnimationFrame(animate);
     }
 
     weldingButton.addEventListener(
@@ -1452,21 +1690,39 @@
       startWelding
     );
 
-    /*
-      При изменении размера окна текущая анимация
-      останавливается, чтобы Canvas не растягивался.
-    */
-    window.addEventListener("resize", () => {
-      if (!weldingStage.classList.contains("active")) {
-        return;
-      }
+    window.addEventListener(
+      "resize",
+      () => {
+        if (
+          !canvas.classList.contains("active")
+        ) {
+          return;
+        }
 
-      animationNumber += 1;
-      cancelAnimationFrame(animationFrame);
-      particles = [];
-      weldingButton.classList.remove("welding");
-      weldingStage.classList.remove("active");
-    });
+        animationNumber += 1;
+
+        cancelAnimationFrame(
+          animationFrame
+        );
+
+        particles = [];
+
+        weldingButton.classList.remove(
+          "welding"
+        );
+
+        canvas.classList.remove(
+          "active"
+        );
+
+        ctx.clearRect(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+      }
+    );
   </script>
 </body>
 </html>
