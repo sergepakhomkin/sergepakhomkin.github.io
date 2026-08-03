@@ -10,10 +10,10 @@
 
   <meta
     name="description"
-    content="Sergei Pakhomkin — handyman and electrical services. Installation, repair, replacement and assembly."
+    content="Best Helps — handyman and electrical services. Installation, repair, replacement and assembly."
   >
 
-  <title>Sergei Pakhomkin — Handyman & Electrical Services</title>
+  <title>Best Helps — Handyman &amp; Electrical Services</title>
 
   <!-- Лампочка во вкладке браузера -->
   <link
@@ -23,16 +23,19 @@
 
   <style>
     :root {
-      --background: #f5f2ec;
-      --card: #fbf8f2;
-      --card-light: #fffdf9;
+      --page-background: #f4f0e9;
+      --card-background: #fffdf8;
+      --card-background-soft: #faf6ee;
+
       --black: #151515;
-      --soft-black: #292929;
-      --gray: #66625c;
-      --gold: #c88b0a;
-      --gold-light: #efc568;
-      --gold-dark: #9b6900;
-      --orange: #e15d00;
+      --dark-text: #292723;
+      --gray-text: #716b62;
+
+      --gold: #c58a12;
+      --gold-light: #edc96f;
+      --gold-dark: #916000;
+
+      --border: rgba(123, 94, 39, 0.23);
       --white: #ffffff;
     }
 
@@ -47,20 +50,17 @@
     body {
       margin: 0;
       min-height: 100vh;
-      padding: 28px;
+      padding: 24px;
       overflow-x: hidden;
       color: var(--black);
       background:
         radial-gradient(
           circle at 50% 0%,
-          rgba(255, 255, 255, 0.98),
-          rgba(245, 242, 236, 0.96) 52%,
-          #ece8e1 100%
+          #ffffff 0%,
+          #f8f5ef 42%,
+          var(--page-background) 100%
         );
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     button,
@@ -70,32 +70,33 @@
 
     .page {
       width: 100%;
-      max-width: 1240px;
+      max-width: 1120px;
       margin: 0 auto;
     }
 
-    .site-card {
+    .card {
       position: relative;
       width: 100%;
       overflow: hidden;
-      border: 1px solid rgba(95, 80, 55, 0.18);
-      border-radius: 36px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
       background:
         linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.93),
-          rgba(250, 245, 237, 0.97)
+          145deg,
+          rgba(255, 255, 255, 0.96),
+          rgba(250, 246, 238, 0.98)
         );
       box-shadow:
-        0 22px 60px rgba(54, 47, 38, 0.13),
-        0 4px 14px rgba(54, 47, 38, 0.08);
+        0 24px 70px rgba(63, 52, 36, 0.14),
+        0 4px 14px rgba(63, 52, 36, 0.07);
       isolation: isolate;
     }
 
     /*
-      Декоративный почти незаметный флаг.
+      Очень лёгкий фон в стиле американского флага.
+      Он является только фоном и не меняет расположение сайта.
     */
-    .flag-art {
+    .flag-background {
       position: absolute;
       z-index: -2;
       inset: 0;
@@ -104,378 +105,251 @@
       pointer-events: none;
     }
 
-    .flag-overlay {
+    .background-light {
       position: absolute;
       z-index: -1;
       inset: 0;
       background:
         linear-gradient(
           90deg,
-          rgba(255, 255, 255, 0.25),
-          rgba(255, 255, 255, 0.62) 38%,
-          rgba(255, 255, 255, 0.2)
+          rgba(255, 255, 255, 0.24),
+          rgba(255, 255, 255, 0.7) 42%,
+          rgba(255, 255, 255, 0.28)
         ),
         linear-gradient(
           180deg,
-          rgba(255, 253, 249, 0.15),
-          rgba(255, 250, 243, 0.62)
+          rgba(255, 253, 248, 0.12),
+          rgba(255, 251, 245, 0.48)
         );
       pointer-events: none;
     }
 
-    /*
-      Золотой квадрат сверху, как на визитке.
-    */
-    .gold-tab {
-      position: absolute;
-      z-index: 5;
-      top: -4px;
-      left: 50%;
-      width: 92px;
-      height: 116px;
-      border: 1px solid rgba(142, 91, 0, 0.65);
-      border-radius: 0 0 3px 3px;
-      background:
-        radial-gradient(
-          circle at 20% 28%,
-          rgba(255, 255, 255, 0.62) 0 2px,
-          transparent 3px
-        ),
-        radial-gradient(
-          circle at 72% 65%,
-          rgba(255, 255, 255, 0.38) 0 2px,
-          transparent 3px
-        ),
-        repeating-linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.16) 0 2px,
-          transparent 2px 7px
-        ),
-        linear-gradient(
-          145deg,
-          #f9d87b,
-          #c99116 48%,
-          #f2c85d 72%,
-          #a96f00
-        );
-      box-shadow:
-        inset 0 0 14px rgba(255, 255, 255, 0.55),
-        inset 0 -12px 20px rgba(116, 71, 0, 0.16),
-        0 3px 7px rgba(102, 73, 21, 0.18);
-      transform: translateX(-50%);
+    .main-content {
+      padding: 46px 48px 44px;
     }
 
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(270px, 0.78fr) minmax(0, 1.65fr);
-      gap: 54px;
-      align-items: center;
-      padding: 150px 72px 58px;
+    .header {
+      text-align: center;
     }
 
-    .bulb-area {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
+    /* Нажимаемая лампочка */
     .bulb-button {
       position: relative;
-      width: min(100%, 390px);
-      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0 13px;
+      padding: 7px;
       border: 0;
+      border-radius: 50%;
+      color: inherit;
       background: transparent;
+      font: inherit;
       cursor: pointer;
       transition:
-        transform 0.24s ease,
-        filter 0.24s ease;
+        transform 0.2s ease,
+        filter 0.2s ease;
+    }
+
+    .bulb-button::before {
+      position: absolute;
+      inset: 7px;
+      border-radius: 50%;
+      background:
+        radial-gradient(
+          circle,
+          rgba(255, 219, 121, 0.34),
+          rgba(255, 201, 66, 0.05) 67%,
+          transparent 72%
+        );
+      content: "";
+      opacity: 0;
+      transform: scale(0.75);
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
     }
 
     .bulb-button:hover {
-      transform: scale(1.035);
+      transform: scale(1.1);
       filter:
-        drop-shadow(0 0 8px rgba(216, 160, 38, 0.35))
-        drop-shadow(0 0 20px rgba(255, 204, 82, 0.24));
+        drop-shadow(0 0 8px rgba(219, 160, 42, 0.62))
+        drop-shadow(0 0 20px rgba(255, 202, 70, 0.32));
+    }
+
+    .bulb-button:hover::before {
+      opacity: 1;
+      transform: scale(1.35);
     }
 
     .bulb-button:active {
-      transform: scale(0.97);
+      transform: scale(0.94);
     }
 
     .bulb-button:focus-visible {
       outline: 3px solid var(--gold);
-      outline-offset: 7px;
-      border-radius: 20px;
+      outline-offset: 5px;
     }
 
     .bulb-button.welding {
-      animation: bulbPulse 0.22s ease-in-out infinite alternate;
+      animation: bulbPulse 0.25s ease-in-out infinite alternate;
     }
 
-    .bulb-graphic {
+    .bulb {
+      position: relative;
+      z-index: 1;
       display: block;
-      width: 100%;
-      height: auto;
-      overflow: visible;
+      font-size: 58px;
+      line-height: 1;
+      user-select: none;
     }
 
     @keyframes bulbPulse {
       from {
+        transform: scale(0.96);
         filter:
-          drop-shadow(0 0 5px rgba(255, 225, 151, 0.8))
-          drop-shadow(0 0 12px rgba(219, 142, 10, 0.4));
+          drop-shadow(0 0 6px #fff3c0)
+          drop-shadow(0 0 13px rgba(202, 135, 8, 0.5));
       }
 
       to {
+        transform: scale(1.09);
         filter:
-          drop-shadow(0 0 14px rgba(255, 255, 240, 1))
-          drop-shadow(0 0 32px rgba(238, 144, 0, 0.72));
+          drop-shadow(0 0 15px #ffffff)
+          drop-shadow(0 0 30px rgba(225, 143, 0, 0.77));
       }
     }
 
-    .hero-content {
-      min-width: 0;
-      padding-top: 18px;
+    .website-address {
+      margin-bottom: 17px;
+      color: var(--black);
+      font-size: 27px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
     }
 
-    .domain {
-      margin-bottom: 16px;
-      color: var(--gray);
-      font-size: 17px;
-      font-weight: 600;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .domain strong {
+    .website-address strong {
       color: var(--gold-dark);
+      font-size: 34px;
     }
 
-    .name {
+    .main-title {
+      display: inline-block;
       margin: 0;
+      padding: 0 26px 16px;
+      border-bottom: 3px solid var(--gold);
       color: var(--black);
       font-family:
         Georgia,
         "Times New Roman",
         serif;
-      font-size: clamp(42px, 5.3vw, 76px);
+      font-size: 31px;
       font-weight: 400;
-      line-height: 1.07;
-      letter-spacing: 0.115em;
+      line-height: 1.35;
+      letter-spacing: 0.13em;
       text-transform: uppercase;
-    }
-
-    .profession {
-      margin: 26px 0 0;
-      color: var(--soft-black);
-      font-size: clamp(18px, 2.2vw, 30px);
-      font-weight: 400;
-      line-height: 1.42;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-    }
-
-    .gold-divider {
-      width: 100%;
-      height: 2px;
-      margin: 30px 0 35px;
-      border: 0;
-      background:
-        linear-gradient(
-          90deg,
-          var(--gold-dark),
-          var(--gold-light),
-          var(--gold-dark)
-        );
-      box-shadow:
-        0 1px 2px rgba(112, 74, 0, 0.16);
-    }
-
-    .quick-contact {
-      display: grid;
-      gap: 20px;
-    }
-
-    .quick-contact-row {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      min-width: 0;
-    }
-
-    .round-icon {
-      display: inline-flex;
-      flex: 0 0 52px;
-      width: 52px;
-      height: 52px;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid var(--gold);
-      border-radius: 50%;
-      color: var(--gold-dark);
-      background: rgba(255, 255, 255, 0.44);
-    }
-
-    .round-icon svg {
-      width: 27px;
-      height: 27px;
-      stroke: currentColor;
-    }
-
-    .quick-contact-label {
-      color: var(--soft-black);
-      font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-      font-size: clamp(23px, 2.7vw, 38px);
-      line-height: 1.2;
-    }
-
-    .quick-contact-label strong {
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-    }
-
-    .quick-contact-link {
-      color: inherit;
-      text-decoration: none;
-      overflow-wrap: anywhere;
-      transition: color 0.2s ease;
-    }
-
-    .quick-contact-link:hover {
-      color: var(--gold-dark);
-    }
-
-    .content-section {
-      position: relative;
-      margin: 0 62px;
-      padding: 50px 10px;
-      border-top: 1px solid rgba(145, 106, 31, 0.29);
-    }
-
-    .section-title {
-      margin: 0 0 14px;
-      color: var(--black);
-      font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-      font-size: clamp(31px, 4vw, 50px);
-      font-weight: 400;
-      letter-spacing: 0.08em;
-      text-align: center;
-      text-transform: uppercase;
-    }
-
-    .section-subtitle {
-      max-width: 760px;
-      margin: 0 auto 34px;
-      color: var(--gray);
-      font-size: 18px;
-      line-height: 1.7;
-      text-align: center;
     }
 
     .work-types {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px 17px;
-      margin: 0 0 38px;
+      gap: 10px 20px;
+      margin: 30px 0 35px;
       color: var(--gold-dark);
       font-family:
         Georgia,
         "Times New Roman",
         serif;
-      font-size: clamp(21px, 2.5vw, 31px);
+      font-size: 25px;
       font-weight: 600;
     }
 
-    .work-separator {
-      color: var(--black);
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-      font-size: 13px;
-      line-height: 2.2;
+    .work-type {
+      white-space: nowrap;
     }
 
-    .services-grid {
+    .separator {
+      color: var(--black);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      line-height: 2;
+    }
+
+    .service-columns {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px 42px;
-      max-width: 980px;
+      grid-template-columns: 1fr 1fr 1.06fr;
+      gap: 19px 42px;
+      width: 100%;
+      max-width: 970px;
       margin: 0 auto;
     }
 
-    .services-column {
+    .service-column {
       display: flex;
       flex-direction: column;
-      gap: 17px;
+      gap: 15px;
     }
 
     .service-item {
       display: flex;
       align-items: center;
-      gap: 13px;
-      min-width: 0;
-      color: var(--soft-black);
+      gap: 12px;
+      color: var(--dark-text);
       font-size: 19px;
-      font-weight: 600;
-      line-height: 1.3;
+      font-weight: 650;
+      line-height: 1.28;
     }
 
-    .service-check {
+    .checkmark {
       display: inline-flex;
-      flex: 0 0 29px;
-      width: 29px;
-      height: 29px;
+      flex: 0 0 30px;
+      width: 30px;
+      height: 30px;
       align-items: center;
       justify-content: center;
       border: 2px solid var(--gold);
       border-radius: 50%;
       color: var(--gold-dark);
-      background: rgba(255, 255, 255, 0.48);
-      font-size: 18px;
+      background: rgba(255, 255, 255, 0.55);
+      font-size: 19px;
       font-weight: 900;
+      box-shadow:
+        0 2px 6px rgba(107, 76, 15, 0.08);
     }
 
     .coming-soon {
+      margin-top: 44px;
+      padding-top: 35px;
+      border-top: 1px solid var(--border);
       text-align: center;
     }
 
-    .coming-soon-title {
+    .coming-soon h2 {
       margin: 0 0 14px;
       color: var(--black);
       font-family:
         Georgia,
         "Times New Roman",
         serif;
-      font-size: clamp(31px, 4vw, 50px);
+      font-size: 31px;
       font-weight: 400;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.035em;
     }
 
-    .coming-soon-message {
-      max-width: 690px;
-      margin: 0 auto 30px;
-      color: var(--gray);
+    .message {
+      max-width: 650px;
+      margin: 0 auto 28px;
+      color: var(--gray-text);
       font-size: 18px;
-      line-height: 1.7;
+      line-height: 1.65;
     }
 
     .contact-buttons {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 15px;
+      gap: 14px;
     }
 
     .contact-button {
@@ -483,74 +357,118 @@
       min-height: 54px;
       align-items: center;
       justify-content: center;
-      padding: 14px 27px;
+      padding: 14px 25px;
       border: 2px solid var(--gold);
       border-radius: 999px;
       color: var(--black);
-      background: rgba(255, 255, 255, 0.53);
-      font-size: 17px;
-      font-weight: 700;
-      text-decoration: none;
-      box-shadow:
-        0 4px 13px rgba(92, 66, 19, 0.08);
-      transition:
-        color 0.2s ease,
-        background 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-    }
-
-    .contact-button:hover {
-      color: #1b1305;
       background:
         linear-gradient(
           145deg,
-          #f6d77e,
-          #c68a08
+          #f4d782,
+          #c98d12
+        );
+      font-size: 17px;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow:
+        0 6px 16px rgba(111, 77, 13, 0.17);
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .contact-button:hover {
+      background:
+        linear-gradient(
+          145deg,
+          #ffe79c,
+          #d89b19
         );
       box-shadow:
-        0 8px 20px rgba(120, 83, 15, 0.19);
+        0 10px 23px rgba(111, 77, 13, 0.23);
       transform: translateY(-2px);
     }
 
-    .preferred-contact {
-      margin-top: 19px;
-      color: var(--gray);
-      font-size: 14px;
-      letter-spacing: 0.04em;
-    }
-
-    .site-footer {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 22px;
-      margin: 0 62px;
-      padding: 28px 10px 35px;
-      border-top: 1px solid rgba(145, 106, 31, 0.29);
-      color: var(--gray);
-      font-size: 15px;
-    }
-
-    .footer-domain {
+    .contact-button.secondary {
       color: var(--black);
-      font-size: 18px;
-      font-weight: 700;
-      text-decoration: none;
+      background: rgba(255, 255, 255, 0.62);
     }
 
-    .footer-domain strong {
+    .contact-button.secondary:hover {
+      background: rgba(244, 216, 139, 0.55);
+    }
+
+    .preferred {
+      margin-top: 18px;
+      color: var(--gray-text);
+      font-size: 14px;
+      letter-spacing: 0.03em;
+    }
+
+    .contact-bar {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      border-top: 3px solid var(--gold);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(246, 237, 219, 0.98),
+          rgba(255, 253, 248, 0.98)
+        );
+    }
+
+    .contact-block {
+      display: flex;
+      min-height: 93px;
+      align-items: center;
+      gap: 17px;
+      padding: 21px 32px;
+    }
+
+    .contact-block + .contact-block {
+      border-left: 1px solid var(--border);
+    }
+
+    .contact-icon {
+      display: inline-flex;
+      flex: 0 0 48px;
+      width: 48px;
+      height: 48px;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      color: var(--gold-dark);
+      background: rgba(255, 255, 255, 0.63);
+      font-size: 23px;
+    }
+
+    .contact-link {
+      color: var(--black);
+      font-size: 21px;
+      font-weight: 750;
+      text-decoration: none;
+      overflow-wrap: anywhere;
+      transition: color 0.2s ease;
+    }
+
+    .contact-link:hover {
+      color: var(--gold-dark);
+    }
+
+    .domain-link strong {
       color: var(--gold-dark);
     }
 
     /*
-      Canvas сварки поверх всей страницы.
+      Сварка проходит поверх текущей видимой области.
     */
     .welding-overlay {
       position: fixed;
-      z-index: 9999;
+      z-index: 9998;
       inset: 0;
+      display: block;
       width: 100vw;
       height: 100vh;
       opacity: 0;
@@ -562,125 +480,139 @@
       opacity: 1;
     }
 
-    @media (max-width: 980px) {
-      .hero {
-        grid-template-columns: 0.75fr 1.25fr;
-        gap: 28px;
-        padding-right: 42px;
-        padding-left: 42px;
+    /*
+      Всплывающая надпись во время сварки.
+    */
+    .welding-status {
+      position: fixed;
+      z-index: 10000;
+      right: 20px;
+      bottom: 22px;
+      left: 20px;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+    }
+
+    .welding-status.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .welding-status-text {
+      max-width: 680px;
+      padding: 14px 25px;
+      border: 1px solid rgba(197, 138, 18, 0.72);
+      border-radius: 999px;
+      color: #fffdf8;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(22, 20, 17, 0.93),
+          rgba(51, 43, 29, 0.93)
+        );
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+      font-size: 18px;
+      letter-spacing: 0.035em;
+      text-align: center;
+      box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.27),
+        0 0 18px rgba(197, 138, 18, 0.15);
+      backdrop-filter: blur(8px);
+    }
+
+    @media (max-width: 900px) {
+      .service-columns {
+        grid-template-columns: 1fr 1fr;
       }
 
-      .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .services-column:last-child {
+      .service-column:last-child {
         grid-column: 1 / -1;
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .contact-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-block + .contact-block {
+        border-top: 1px solid var(--border);
+        border-left: 0;
       }
     }
 
-    @media (max-width: 760px) {
+    @media (max-width: 650px) {
       body {
-        padding: 12px;
+        padding: 10px;
       }
 
-      .site-card {
-        border-radius: 24px;
+      .card {
+        border-radius: 20px;
       }
 
-      .gold-tab {
-        width: 67px;
-        height: 82px;
+      .main-content {
+        padding: 35px 20px 32px;
       }
 
-      .hero {
-        grid-template-columns: 1fr;
-        gap: 16px;
-        padding: 108px 24px 42px;
-        text-align: center;
+      .bulb {
+        font-size: 50px;
       }
 
-      .bulb-button {
-        width: min(76%, 300px);
+      .website-address {
+        font-size: 20px;
       }
 
-      .hero-content {
-        padding-top: 0;
+      .website-address strong {
+        font-size: 27px;
       }
 
-      .domain {
-        font-size: 14px;
-      }
-
-      .name {
-        font-size: clamp(35px, 10vw, 55px);
+      .main-title {
+        padding-right: 5px;
+        padding-left: 5px;
+        font-size: 21px;
         letter-spacing: 0.08em;
-      }
-
-      .profession {
-        font-size: 17px;
-        letter-spacing: 0.18em;
-      }
-
-      .gold-divider {
-        margin: 25px 0 28px;
-      }
-
-      .quick-contact {
-        display: inline-grid;
-        text-align: left;
-      }
-
-      .quick-contact-label {
-        font-size: 23px;
-      }
-
-      .round-icon {
-        flex-basis: 45px;
-        width: 45px;
-        height: 45px;
-      }
-
-      .round-icon svg {
-        width: 23px;
-        height: 23px;
-      }
-
-      .content-section {
-        margin: 0 22px;
-        padding: 40px 0;
-      }
-
-      .site-footer {
-        margin: 0 22px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .services-grid {
-        grid-template-columns: 1fr;
-        max-width: 390px;
-      }
-
-      .services-column:last-child {
-        display: flex;
-        grid-column: auto;
-      }
-
-      .section-subtitle,
-      .coming-soon-message {
-        font-size: 16px;
       }
 
       .work-types {
         gap: 7px 10px;
+        margin-top: 24px;
         font-size: 20px;
+      }
+
+      .separator {
+        font-size: 11px;
+      }
+
+      .service-columns {
+        grid-template-columns: 1fr;
+        max-width: 390px;
+      }
+
+      .service-column,
+      .service-column:last-child {
+        display: flex;
+        grid-column: auto;
       }
 
       .service-item {
         font-size: 17px;
+      }
+
+      .coming-soon h2 {
+        font-size: 26px;
+      }
+
+      .message {
+        font-size: 16px;
       }
 
       .contact-buttons {
@@ -691,112 +623,149 @@
         width: 100%;
       }
 
-      .site-footer {
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
+      .contact-block {
+        min-height: auto;
+        padding: 19px 21px;
+      }
+
+      .contact-link {
+        font-size: 17px;
+      }
+
+      .welding-status {
+        right: 10px;
+        bottom: 14px;
+        left: 10px;
+      }
+
+      .welding-status-text {
+        width: 100%;
+        padding: 12px 17px;
+        border-radius: 16px;
+        font-size: 15px;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        scroll-behavior: auto !important;
-      }
-
       .bulb-button.welding {
         animation: none;
+      }
+
+      .welding-status {
+        transition: none;
       }
     }
   </style>
 </head>
 
 <body>
-  <!-- Эффект сварки поверх сайта -->
+  <!-- Сварка поверх видимой части сайта -->
   <canvas
     class="welding-overlay"
     id="weldingCanvas"
     aria-hidden="true"
   ></canvas>
 
-  <main class="page">
-    <article class="site-card">
+  <!-- Сообщение внизу экрана во время сварки -->
+  <div
+    class="welding-status"
+    id="weldingStatus"
+    role="status"
+    aria-live="polite"
+  >
+    <div class="welding-status-text">
+      We are currently building our full website
+    </div>
+  </div>
 
-      <!-- Фоновый флаг -->
+  <main class="page">
+    <section class="card">
+
+      <!-- Ненавязчивый флаг на фоне -->
       <svg
-        class="flag-art"
-        viewBox="0 0 1200 1050"
+        class="flag-background"
+        viewBox="0 0 1200 1000"
         preserveAspectRatio="none"
         aria-hidden="true"
       >
         <defs>
-          <linearGradient id="starArea" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#dce3e8" stop-opacity="0.5"/>
-            <stop offset="1" stop-color="#f3f5f5" stop-opacity="0.08"/>
+          <linearGradient id="blueFade" x1="0" y1="0" x2="1" y2="1">
+            <stop
+              offset="0"
+              stop-color="#cdd7df"
+              stop-opacity="0.52"
+            />
+            <stop
+              offset="1"
+              stop-color="#edf0f1"
+              stop-opacity="0.04"
+            />
           </linearGradient>
 
-          <linearGradient id="redWave" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stop-color="#c34235" stop-opacity="0.015"/>
-            <stop offset="0.55" stop-color="#c34235" stop-opacity="0.07"/>
-            <stop offset="1" stop-color="#b93128" stop-opacity="0.035"/>
+          <linearGradient id="redFade" x1="0" y1="0" x2="1" y2="0">
+            <stop
+              offset="0"
+              stop-color="#bd4c41"
+              stop-opacity="0.012"
+            />
+            <stop
+              offset="0.55"
+              stop-color="#bd4c41"
+              stop-opacity="0.065"
+            />
+            <stop
+              offset="1"
+              stop-color="#bd4c41"
+              stop-opacity="0.02"
+            />
           </linearGradient>
-
-          <filter id="softBlur">
-            <feGaussianBlur stdDeviation="1.6"/>
-          </filter>
         </defs>
 
         <path
-          d="M0 0H535C510 110 470 175 400 248C320 330 214 390 0 410Z"
-          fill="url(#starArea)"
-          opacity="0.42"
+          d="M0 0H510C480 115 420 196 340 267C257 341 153 389 0 421Z"
+          fill="url(#blueFade)"
+          opacity="0.37"
         />
 
         <g
           fill="#ffffff"
-          opacity="0.55"
-          transform="translate(18 20)"
+          opacity="0.5"
         >
-          <text x="15" y="60" font-size="65">★</text>
-          <text x="105" y="42" font-size="54">★</text>
-          <text x="185" y="76" font-size="66">★</text>
-          <text x="292" y="48" font-size="52">★</text>
-          <text x="383" y="82" font-size="68">★</text>
+          <text x="31" y="72" font-size="63">★</text>
+          <text x="137" y="48" font-size="52">★</text>
+          <text x="238" y="88" font-size="64">★</text>
+          <text x="356" y="57" font-size="54">★</text>
 
-          <text x="56" y="155" font-size="58">★</text>
-          <text x="157" y="137" font-size="67">★</text>
-          <text x="268" y="173" font-size="56">★</text>
-          <text x="370" y="150" font-size="68">★</text>
+          <text x="75" y="170" font-size="54">★</text>
+          <text x="184" y="153" font-size="66">★</text>
+          <text x="302" y="185" font-size="54">★</text>
 
-          <text x="16" y="255" font-size="68">★</text>
-          <text x="118" y="240" font-size="52">★</text>
-          <text x="218" y="282" font-size="65">★</text>
-          <text x="333" y="250" font-size="56">★</text>
+          <text x="24" y="272" font-size="67">★</text>
+          <text x="142" y="253" font-size="53">★</text>
+          <text x="251" y="293" font-size="65">★</text>
         </g>
 
         <g
           fill="none"
-          stroke="url(#redWave)"
+          stroke="url(#redFade)"
           stroke-width="58"
-          filter="url(#softBlur)"
         >
-          <path d="M430 40C650 115 780 0 1200 90"/>
-          <path d="M380 150C650 230 820 105 1220 205"/>
-          <path d="M315 280C610 345 810 245 1220 335"/>
-          <path d="M190 430C520 480 760 405 1220 475"/>
-          <path d="M0 610C430 555 710 600 1220 555"/>
-          <path d="M0 770C400 710 760 790 1220 700"/>
-          <path d="M0 930C400 850 780 970 1220 855"/>
+          <path d="M405 46C665 118 820 1 1220 93"/>
+          <path d="M362 163C650 231 821 119 1220 211"/>
+          <path d="M297 295C604 356 824 253 1220 343"/>
+          <path d="M168 448C505 490 786 415 1220 485"/>
+          <path d="M0 624C410 565 746 627 1220 573"/>
+          <path d="M0 797C420 729 775 809 1220 716"/>
+          <path d="M0 963C426 872 789 983 1220 872"/>
         </g>
       </svg>
 
-      <div class="flag-overlay"></div>
-      <div class="gold-tab" aria-hidden="true"></div>
+      <div class="background-light"></div>
 
-      <section class="hero">
+      <div class="main-content">
 
-        <div class="bulb-area">
+        <header class="header">
+
           <button
             class="bulb-button"
             id="weldingButton"
@@ -804,434 +773,196 @@
             aria-label="Start welding effect"
             title="Start welding"
           >
-            <svg
-              class="bulb-graphic"
-              viewBox="0 0 420 520"
-              role="img"
-              aria-label="Light bulb"
+            <span
+              class="bulb"
+              aria-hidden="true"
             >
-              <defs>
-                <radialGradient id="bulbGlass" cx="48%" cy="38%" r="58%">
-                  <stop offset="0" stop-color="#fffdf1"/>
-                  <stop offset="0.34" stop-color="#ffe7a4"/>
-                  <stop offset="0.67" stop-color="#e6a52e"/>
-                  <stop offset="1" stop-color="#b86d00"/>
-                </radialGradient>
-
-                <linearGradient id="bulbEdge" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#ffd86c"/>
-                  <stop offset="0.48" stop-color="#b97305"/>
-                  <stop offset="1" stop-color="#f3bf48"/>
-                </linearGradient>
-
-                <linearGradient id="baseMetal" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0" stop-color="#080808"/>
-                  <stop offset="0.48" stop-color="#404040"/>
-                  <stop offset="0.72" stop-color="#090909"/>
-                  <stop offset="1" stop-color="#2b2b2b"/>
-                </linearGradient>
-
-                <filter id="bulbGlow">
-                  <feGaussianBlur stdDeviation="14"/>
-                </filter>
-
-                <filter id="softShadow">
-                  <feDropShadow
-                    dx="0"
-                    dy="7"
-                    stdDeviation="7"
-                    flood-color="#000000"
-                    flood-opacity="0.25"
-                  />
-                </filter>
-              </defs>
-
-              <ellipse
-                cx="196"
-                cy="188"
-                rx="119"
-                ry="143"
-                fill="#ffd86b"
-                opacity="0.22"
-                filter="url(#bulbGlow)"
-              />
-
-              <path
-                d="M192 42
-                   C111 42 57 102 57 184
-                   C57 247 91 278 114 309
-                   C129 330 135 348 136 370
-                   H249
-                   C251 347 258 329 274 306
-                   C298 272 328 242 328 184
-                   C328 101 274 42 192 42Z"
-                fill="url(#bulbGlass)"
-                stroke="url(#bulbEdge)"
-                stroke-width="5"
-                filter="url(#softShadow)"
-              />
-
-              <path
-                d="M92 182
-                   C92 111 138 67 192 67
-                   C246 67 293 110 293 182"
-                fill="none"
-                stroke="rgba(255,255,255,0.78)"
-                stroke-width="3"
-                stroke-linecap="round"
-              />
-
-              <ellipse
-                cx="165"
-                cy="126"
-                rx="39"
-                ry="58"
-                fill="#ffffff"
-                opacity="0.18"
-                transform="rotate(-26 165 126)"
-              />
-
-              <path
-                d="M133 186
-                   C146 161 154 161 166 185
-                   C177 159 186 159 198 185
-                   C210 159 219 160 231 186"
-                fill="none"
-                stroke="#ef5b36"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-
-              <path
-                d="M133 186L150 293
-                   M166 185L174 293
-                   M198 185L198 293
-                   M231 186L219 293"
-                fill="none"
-                stroke="#ef5b36"
-                stroke-width="4"
-              />
-
-              <rect
-                x="143"
-                y="285"
-                width="15"
-                height="78"
-                rx="3"
-                fill="#2b2b2b"
-              />
-
-              <rect
-                x="171"
-                y="285"
-                width="15"
-                height="78"
-                rx="3"
-                fill="#383838"
-              />
-
-              <rect
-                x="197"
-                y="285"
-                width="15"
-                height="78"
-                rx="3"
-                fill="#141414"
-              />
-
-              <rect
-                x="224"
-                y="285"
-                width="15"
-                height="78"
-                rx="3"
-                fill="#333333"
-              />
-
-              <g filter="url(#softShadow)">
-                <rect
-                  x="126"
-                  y="351"
-                  width="132"
-                  height="31"
-                  rx="15"
-                  fill="url(#baseMetal)"
-                />
-
-                <rect
-                  x="123"
-                  y="377"
-                  width="138"
-                  height="31"
-                  rx="15"
-                  fill="url(#baseMetal)"
-                />
-
-                <rect
-                  x="126"
-                  y="403"
-                  width="131"
-                  height="31"
-                  rx="15"
-                  fill="url(#baseMetal)"
-                />
-
-                <rect
-                  x="134"
-                  y="429"
-                  width="115"
-                  height="28"
-                  rx="14"
-                  fill="url(#baseMetal)"
-                />
-
-                <path
-                  d="M151 453H232
-                     C229 477 216 488 191 488
-                     C166 488 153 477 151 453Z"
-                  fill="#111111"
-                />
-              </g>
-
-              <path
-                d="M190 488
-                   C164 514 133 498 113 479
-                   C82 450 51 459 42 485
-                   C33 512 59 524 88 510
-                   C120 495 123 463 98 447
-                   C71 430 42 436 24 454"
-                fill="none"
-                stroke="#111111"
-                stroke-width="17"
-                stroke-linecap="round"
-              />
-            </svg>
+              💡
+            </span>
           </button>
-        </div>
 
-        <div class="hero-content">
-          <div class="domain">
+          <div class="website-address">
             www.<strong>besthelps</strong>.com
           </div>
 
-          <h1 class="name">
-            Sergei Pakhomkin
+          <h1 class="main-title">
+            Handyman &amp; Electrical Services
           </h1>
 
-          <p class="profession">
-            Handyman &amp; Electrical Services
+        </header>
+
+        <div
+          class="work-types"
+          aria-label="Types of work"
+        >
+          <span class="work-type">Installation</span>
+          <span class="separator">●</span>
+
+          <span class="work-type">Repair</span>
+          <span class="separator">●</span>
+
+          <span class="work-type">Replacement</span>
+          <span class="separator">●</span>
+
+          <span class="work-type">Assembly</span>
+        </div>
+
+        <section
+          class="service-list"
+          aria-label="Our services"
+        >
+          <div class="service-columns">
+
+            <div class="service-column">
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Electrical Fixtures</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Switches</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Smart Switches</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Outlets</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Ceiling Fans</span>
+              </div>
+            </div>
+
+            <div class="service-column">
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Lights</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Doorbells</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Locks</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Shelves</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Appliances</span>
+              </div>
+            </div>
+
+            <div class="service-column">
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Furniture Assembly</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Garage Door Openers</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>Faucets</span>
+              </div>
+
+              <div class="service-item">
+                <span class="checkmark">✓</span>
+                <span>And More</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <section class="coming-soon">
+          <h2>
+            Our website is coming soon
+          </h2>
+
+          <p class="message">
+            We are currently building our full website.
+            Please contact us by email or text for service requests
+            and estimates.
           </p>
 
-          <hr class="gold-divider">
+          <div class="contact-buttons">
+            <a
+              class="contact-button"
+              href="sms:+12244530785"
+            >
+              Text: 224-453-0785
+            </a>
 
-          <div class="quick-contact">
-
-            <div class="quick-contact-row">
-              <span class="round-icon" aria-hidden="true">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M4 5.5h16v11H9l-5 3v-14Z"/>
-                  <path d="M8 9h8"/>
-                  <path d="M8 12.5h6"/>
-                </svg>
-              </span>
-
-              <div class="quick-contact-label">
-                Text:
-                <a
-                  class="quick-contact-link"
-                  href="sms:+12244530785"
-                >
-                  <strong>224-453-0785</strong>
-                </a>
-              </div>
-            </div>
-
-            <div class="quick-contact-row">
-              <span class="round-icon" aria-hidden="true">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <rect x="3" y="5" width="18" height="14" rx="1.5"/>
-                  <path d="m4 7 8 6 8-6"/>
-                </svg>
-              </span>
-
-              <div class="quick-contact-label">
-                <a
-                  class="quick-contact-link"
-                  href="mailto:services@besthelps.com"
-                >
-                  services@besthelps.com
-                </a>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-      </section>
-
-      <section class="content-section">
-        <h2 class="section-title">
-          Services
-        </h2>
-
-        <p class="section-subtitle">
-          Reliable help with installation, repair, replacement
-          and assembly for your home.
-        </p>
-
-        <div class="work-types" aria-label="Types of work">
-          <span>Installation</span>
-          <span class="work-separator">●</span>
-
-          <span>Repair</span>
-          <span class="work-separator">●</span>
-
-          <span>Replacement</span>
-          <span class="work-separator">●</span>
-
-          <span>Assembly</span>
-        </div>
-
-        <div class="services-grid">
-
-          <div class="services-column">
-            <div class="service-item">
-              <span class="service-check">✓</span>
-              <span>Electrical Fixtures</span>
-            </div>
-
-            <div class="service-item">
-              <span class="service-check">✓</span>
-              <span>Switches</span>
-            </div>
-
-            <div class="service-item">
-              <span class="service-check">✓</span>
-              <span>Smart Switches</span>
-            </div>
-
-            <div class="service-item">
-              <span class="service-check">✓</span>
-              <span>Outlets</span>
-            </div>
-
-            <div class="service-item">
-              <span class="service-check">✓</span>
-              <span>Ceiling Fans</span>
-            </div>
+            <a
+              class="contact-button secondary"
+              href="mailto:services@besthelps.com"
+            >
+              Email Us
+            </a>
           </div>
 
-          <div class="services-column">
-            <div class="service-item">
-              <span class="service-check">✓</span>
-              <span>Lights</span>
-            </div>
-
-            <div class="service-item">
-              <span class="service-check">✓</span>
-              <span>Doorbells</span>
-            </div>
-
-            <div class="service-item">
-              <span class="service-check">✓</span>
-              <span>Locks</span>
-            </div>
-
-            <div class="service-item">
-              <span class="service-check">✓</span>
-              <span>Shelves</span>
-            </div>
-
-            <div class="service-item">
-              <span class="service-check">✓</span>
-              <span>Appliances</span>
-            </div>
+          <div class="preferred">
+            Preferred contact: Email or Text
           </div>
+        </section>
 
-          <div class="services-column">
-            <div class="service-item">
-              <span class="service-check">✓</span>
-              <span>Furniture Assembly</span>
-            </div>
+      </div>
 
-            <div class="service-item">
-              <span class="service-check">✓</span>
-              <span>Garage Door Openers</span>
-            </div>
+      <footer class="contact-bar">
 
-            <div class="service-item">
-              <span class="service-check">✓</span>
-              <span>Faucets</span>
-            </div>
-
-            <div class="service-item">
-              <span class="service-check">✓</span>
-              <span>And More</span>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <section class="content-section coming-soon">
-        <h2 class="coming-soon-title">
-          Our website is coming soon
-        </h2>
-
-        <p class="coming-soon-message">
-          We are currently building our full website.
-          Please contact us by text or email for service requests,
-          questions and estimates.
-        </p>
-
-        <div class="contact-buttons">
-          <a
-            class="contact-button"
-            href="sms:+12244530785"
+        <div class="contact-block">
+          <span
+            class="contact-icon"
+            aria-hidden="true"
           >
-            Text: 224-453-0785
-          </a>
+            ✉
+          </span>
 
           <a
-            class="contact-button"
+            class="contact-link"
             href="mailto:services@besthelps.com"
           >
             services@besthelps.com
           </a>
         </div>
 
-        <div class="preferred-contact">
-          Preferred contact: Email or Text
+        <div class="contact-block">
+          <span
+            class="contact-icon"
+            aria-hidden="true"
+          >
+            🌐
+          </span>
+
+          <a
+            class="contact-link domain-link"
+            href="https://www.besthelps.com"
+          >
+            www.<strong>besthelps</strong>.com
+          </a>
         </div>
-      </section>
 
-      <footer class="site-footer">
-        <span>
-          © 2026 Sergei Pakhomkin
-        </span>
-
-        <a
-          class="footer-domain"
-          href="https://www.besthelps.com"
-        >
-          www.<strong>besthelps</strong>.com
-        </a>
       </footer>
 
-    </article>
+    </section>
   </main>
 
   <script>
@@ -1240,6 +971,9 @@
     const weldingButton =
       document.getElementById("weldingButton");
 
+    const weldingStatus =
+      document.getElementById("weldingStatus");
+
     const canvas =
       document.getElementById("weldingCanvas");
 
@@ -1247,7 +981,9 @@
       canvas.getContext("2d");
 
     const reducedMotion =
-      window.matchMedia("(prefers-reduced-motion: reduce)");
+      window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      );
 
     let animationFrame = 0;
     let animationNumber = 0;
@@ -1258,25 +994,47 @@
     }
 
     function randomInteger(min, max) {
-      return Math.floor(random(min, max + 1));
+      return Math.floor(
+        random(min, max + 1)
+      );
     }
 
     function clamp(value, min, max) {
-      return Math.max(min, Math.min(max, value));
+      return Math.max(
+        min,
+        Math.min(max, value)
+      );
     }
 
     function resizeCanvas() {
       const width = window.innerWidth;
       const height = window.innerHeight;
-      const ratio = Math.min(window.devicePixelRatio || 1, 2);
 
-      canvas.width = Math.round(width * ratio);
-      canvas.height = Math.round(height * ratio);
+      const ratio = Math.min(
+        window.devicePixelRatio || 1,
+        2
+      );
 
-      canvas.style.width = width + "px";
-      canvas.style.height = height + "px";
+      canvas.width =
+        Math.round(width * ratio);
 
-      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      canvas.height =
+        Math.round(height * ratio);
+
+      canvas.style.width =
+        width + "px";
+
+      canvas.style.height =
+        height + "px";
+
+      ctx.setTransform(
+        ratio,
+        0,
+        0,
+        ratio,
+        0,
+        0
+      );
 
       return {
         width,
@@ -1285,76 +1043,122 @@
     }
 
     /*
-      Случайная диагональная ломаная линия.
-      Она не рисуется заранее.
+      Случайная ломаная диагональ с резкими углами.
+      Траектория не отображается заранее.
     */
     function createJaggedPath(width, height) {
-      const outside = 60;
+      const outside = 65;
 
       const variants = [
         {
           start: {
             x: -outside,
-            y: random(height * 0.05, height * 0.3)
+            y: random(
+              height * 0.05,
+              height * 0.28
+            )
           },
+
           end: {
             x: width + outside,
-            y: random(height * 0.7, height * 0.95)
+            y: random(
+              height * 0.72,
+              height * 0.95
+            )
           }
         },
+
         {
           start: {
             x: width + outside,
-            y: random(height * 0.05, height * 0.3)
+            y: random(
+              height * 0.05,
+              height * 0.28
+            )
           },
+
           end: {
             x: -outside,
-            y: random(height * 0.7, height * 0.95)
+            y: random(
+              height * 0.72,
+              height * 0.95
+            )
           }
         },
+
         {
           start: {
             x: -outside,
-            y: random(height * 0.7, height * 0.95)
+            y: random(
+              height * 0.72,
+              height * 0.95
+            )
           },
+
           end: {
             x: width + outside,
-            y: random(height * 0.05, height * 0.3)
+            y: random(
+              height * 0.05,
+              height * 0.28
+            )
           }
         },
+
         {
           start: {
             x: width + outside,
-            y: random(height * 0.7, height * 0.95)
+            y: random(
+              height * 0.72,
+              height * 0.95
+            )
           },
+
           end: {
             x: -outside,
-            y: random(height * 0.05, height * 0.3)
+            y: random(
+              height * 0.05,
+              height * 0.28
+            )
           }
         }
       ];
 
       const selected =
-        variants[randomInteger(0, variants.length - 1)];
+        variants[
+          randomInteger(
+            0,
+            variants.length - 1
+          )
+        ];
 
       const start = selected.start;
       const end = selected.end;
 
       const dx = end.x - start.x;
       const dy = end.y - start.y;
-      const directLength = Math.hypot(dx, dy) || 1;
 
-      const normalX = -dy / directLength;
-      const normalY = dx / directLength;
+      const directLength =
+        Math.hypot(dx, dy) || 1;
 
-      const pointCount = randomInteger(9, 14);
+      const normalX =
+        -dy / directLength;
+
+      const normalY =
+        dx / directLength;
+
+      const pointCount =
+        randomInteger(10, 15);
+
       const points = [start];
 
       const maximumOffset =
-        Math.min(width, height) * random(0.1, 0.21);
+        Math.min(width, height) *
+        random(0.1, 0.21);
 
       let previousSide =
-        Math.random() < 0.5 ? -1 : 1;
+        Math.random() < 0.5
+          ? -1
+          : 1;
 
       for (
         let index = 1;
@@ -1365,12 +1169,13 @@
           index / (pointCount - 1);
 
         const unevenT = clamp(
-          baseT + random(-0.03, 0.03),
+          baseT +
+            random(-0.03, 0.03),
           0.03,
           0.97
         );
 
-        if (Math.random() < 0.84) {
+        if (Math.random() < 0.85) {
           previousSide *= -1;
         }
 
@@ -1404,14 +1209,23 @@
         index < points.length - 1;
         index += 1
       ) {
-        const first = points[index];
-        const second = points[index + 1];
+        const first =
+          points[index];
 
-        const segmentX = second.x - first.x;
-        const segmentY = second.y - first.y;
+        const second =
+          points[index + 1];
+
+        const segmentX =
+          second.x - first.x;
+
+        const segmentY =
+          second.y - first.y;
 
         const segmentLength =
-          Math.hypot(segmentX, segmentY) || 1;
+          Math.hypot(
+            segmentX,
+            segmentY
+          ) || 1;
 
         segments.push({
           start: first,
@@ -1421,7 +1235,8 @@
           length: segmentLength
         });
 
-        totalLength += segmentLength;
+        totalLength +=
+          segmentLength;
       }
 
       return {
@@ -1431,55 +1246,76 @@
       };
     }
 
-    function getPointOnPath(path, progress) {
+    function getPointOnPath(
+      path,
+      progress
+    ) {
       const targetDistance =
-        clamp(progress, 0, 1) * path.totalLength;
+        clamp(progress, 0, 1) *
+        path.totalLength;
 
       let travelled = 0;
 
-      for (const segment of path.segments) {
+      for (
+        const segment of path.segments
+      ) {
         if (
-          travelled + segment.length >= targetDistance
+          travelled +
+            segment.length >=
+          targetDistance
         ) {
           const localDistance =
-            targetDistance - travelled;
+            targetDistance -
+            travelled;
 
           const localProgress =
-            localDistance / segment.length;
+            localDistance /
+            segment.length;
 
           return {
             x:
               segment.start.x +
-              segment.dx * localProgress,
+              segment.dx *
+                localProgress,
 
             y:
               segment.start.y +
-              segment.dy * localProgress,
+              segment.dy *
+                localProgress,
 
             tangentX:
-              segment.dx / segment.length,
+              segment.dx /
+              segment.length,
 
             tangentY:
-              segment.dy / segment.length
+              segment.dy /
+              segment.length
           };
         }
 
-        travelled += segment.length;
+        travelled +=
+          segment.length;
       }
 
       const last =
-        path.segments[path.segments.length - 1];
+        path.segments[
+          path.segments.length - 1
+        ];
 
       return {
         x: last.end.x,
         y: last.end.y,
-        tangentX: last.dx / last.length,
-        tangentY: last.dy / last.length
+
+        tangentX:
+          last.dx / last.length,
+
+        tangentY:
+          last.dy / last.length
       };
     }
 
     /*
-      Рисуется только уже пройденная часть.
+      Рисуется только пройденная часть.
     */
     function drawPathUntil(
       path,
@@ -1489,9 +1325,11 @@
       blur
     ) {
       const targetDistance =
-        clamp(progress, 0, 1) * path.totalLength;
+        clamp(progress, 0, 1) *
+        path.totalLength;
 
-      let remaining = targetDistance;
+      let remaining =
+        targetDistance;
 
       ctx.save();
       ctx.beginPath();
@@ -1501,28 +1339,37 @@
         path.points[0].y
       );
 
-      for (const segment of path.segments) {
+      for (
+        const segment of path.segments
+      ) {
         if (remaining <= 0) {
           break;
         }
 
-        if (remaining >= segment.length) {
+        if (
+          remaining >=
+          segment.length
+        ) {
           ctx.lineTo(
             segment.end.x,
             segment.end.y
           );
 
-          remaining -= segment.length;
+          remaining -=
+            segment.length;
         } else {
           const localProgress =
-            remaining / segment.length;
+            remaining /
+            segment.length;
 
           ctx.lineTo(
             segment.start.x +
-              segment.dx * localProgress,
+              segment.dx *
+                localProgress,
 
             segment.start.y +
-              segment.dy * localProgress
+              segment.dy *
+                localProgress
           );
 
           remaining = 0;
@@ -1531,45 +1378,58 @@
 
       ctx.lineCap = "round";
       ctx.lineJoin = "miter";
-      ctx.miterLimit = 15;
+      ctx.miterLimit = 16;
       ctx.lineWidth = lineWidth;
       ctx.strokeStyle = color;
       ctx.shadowColor = color;
       ctx.shadowBlur = blur;
       ctx.stroke();
+
       ctx.restore();
     }
 
-    function drawWeldedTrail(path, progress, opacity) {
+    function drawWeldedTrail(
+      path,
+      progress,
+      opacity
+    ) {
       drawPathUntil(
         path,
         progress,
-        `rgba(255, 50, 0, ${0.18 * opacity})`,
-        10,
-        18
+        `rgba(255, 52, 0, ${
+          0.17 * opacity
+        })`,
+        9,
+        16
       );
 
       drawPathUntil(
         path,
         progress,
-        `rgba(255, 105, 0, ${0.55 * opacity})`,
-        4.4,
-        11
+        `rgba(229, 114, 0, ${
+          0.52 * opacity
+        })`,
+        4,
+        10
       );
 
       drawPathUntil(
         path,
         progress,
-        `rgba(255, 200, 86, ${0.85 * opacity})`,
-        1.8,
-        6
+        `rgba(255, 201, 94, ${
+          0.83 * opacity
+        })`,
+        1.7,
+        5
       );
 
       drawPathUntil(
         path,
         progress,
-        `rgba(255, 255, 225, ${0.8 * opacity})`,
-        0.7,
+        `rgba(255, 255, 225, ${
+          0.75 * opacity
+        })`,
+        0.65,
         3
       );
     }
@@ -1582,25 +1442,31 @@
       molten
     ) {
       const directionAngle =
-        Math.atan2(tangentY, tangentX);
+        Math.atan2(
+          tangentY,
+          tangentX
+        );
 
       const side =
-        Math.random() < 0.5 ? -1 : 1;
+        Math.random() < 0.5
+          ? -1
+          : 1;
 
       const angle =
         directionAngle +
-        side * random(0.45, 2.65) +
+        side *
+          random(0.45, 2.65) +
         random(-0.45, 0.45);
 
       const speed =
         molten
-          ? random(130, 380)
-          : random(300, 760);
+          ? random(130, 370)
+          : random(300, 750);
 
       const life =
         molten
-          ? random(0.55, 1.15)
-          : random(0.2, 0.6);
+          ? random(0.5, 1.1)
+          : random(0.18, 0.56);
 
       return {
         molten,
@@ -1608,17 +1474,21 @@
         y,
 
         velocityX:
-          Math.cos(angle) * speed +
-          tangentX * random(10, 90),
+          Math.cos(angle) *
+            speed +
+          tangentX *
+            random(10, 85),
 
         velocityY:
-          Math.sin(angle) * speed +
-          tangentY * random(5, 65),
+          Math.sin(angle) *
+            speed +
+          tangentY *
+            random(5, 60),
 
         gravity:
           molten
-            ? random(380, 690)
-            : random(150, 410),
+            ? random(370, 680)
+            : random(145, 400),
 
         drag:
           molten
@@ -1629,24 +1499,33 @@
         maximumLife: life,
 
         /*
-          Маленький размер искр.
+          Маленькие искры.
         */
         size:
           molten
-            ? random(0.7, 1.7)
-            : random(0.25, 0.75),
+            ? random(0.65, 1.5)
+            : random(0.2, 0.65),
 
         orange:
-          randomInteger(145, 230)
+          randomInteger(150, 230)
       };
     }
 
-    function emitParticles(position, intensity) {
+    function emitParticles(
+      position,
+      intensity
+    ) {
       const sparkCount =
-        Math.floor(random(8, 14) * intensity);
+        Math.floor(
+          random(8, 14) *
+          intensity
+        );
 
       const moltenCount =
-        Math.floor(random(2, 5) * intensity);
+        Math.floor(
+          random(2, 5) *
+          intensity
+        );
 
       for (
         let index = 0;
@@ -1655,8 +1534,12 @@
       ) {
         particles.push(
           createParticle(
-            position.x + random(-3, 3),
-            position.y + random(-3, 3),
+            position.x +
+              random(-3, 3),
+
+            position.y +
+              random(-3, 3),
+
             position.tangentX,
             position.tangentY,
             false
@@ -1671,8 +1554,12 @@
       ) {
         particles.push(
           createParticle(
-            position.x + random(-4, 4),
-            position.y + random(-4, 4),
+            position.x +
+              random(-4, 4),
+
+            position.y +
+              random(-4, 4),
+
             position.tangentX,
             position.tangentY,
             true
@@ -1680,7 +1567,9 @@
         );
       }
 
-      if (particles.length > 700) {
+      if (
+        particles.length > 700
+      ) {
         particles.splice(
           0,
           particles.length - 700
@@ -1688,85 +1577,118 @@
       }
     }
 
-    function updateParticles(deltaTime) {
+    function updateParticles(
+      deltaTime
+    ) {
       for (
-        let index = particles.length - 1;
+        let index =
+          particles.length - 1;
+
         index >= 0;
         index -= 1
       ) {
-        const particle = particles[index];
+        const particle =
+          particles[index];
 
-        particle.life -= deltaTime;
+        particle.life -=
+          deltaTime;
 
-        if (particle.life <= 0) {
-          particles.splice(index, 1);
+        if (
+          particle.life <= 0
+        ) {
+          particles.splice(
+            index,
+            1
+          );
+
           continue;
         }
 
-        particle.velocityX *= Math.pow(
-          particle.drag,
-          deltaTime * 60
-        );
+        particle.velocityX *=
+          Math.pow(
+            particle.drag,
+            deltaTime * 60
+          );
 
-        particle.velocityY *= Math.pow(
-          particle.drag,
-          deltaTime * 60
-        );
+        particle.velocityY *=
+          Math.pow(
+            particle.drag,
+            deltaTime * 60
+          );
 
         particle.velocityY +=
-          particle.gravity * deltaTime;
+          particle.gravity *
+          deltaTime;
 
         particle.x +=
-          particle.velocityX * deltaTime;
+          particle.velocityX *
+          deltaTime;
 
         particle.y +=
-          particle.velocityY * deltaTime;
+          particle.velocityY *
+          deltaTime;
       }
     }
 
     function drawSpark(particle) {
       const alpha = clamp(
-        particle.life / particle.maximumLife,
+        particle.life /
+          particle.maximumLife,
         0,
         1
       );
 
       const tailX =
         particle.x -
-        particle.velocityX * 0.008;
+        particle.velocityX *
+          0.008;
 
       const tailY =
         particle.y -
-        particle.velocityY * 0.008;
+        particle.velocityY *
+          0.008;
 
       ctx.save();
 
       ctx.beginPath();
       ctx.moveTo(tailX, tailY);
-      ctx.lineTo(particle.x, particle.y);
+      ctx.lineTo(
+        particle.x,
+        particle.y
+      );
 
       ctx.lineCap = "round";
-      ctx.lineWidth = particle.size;
+      ctx.lineWidth =
+        particle.size;
 
       ctx.strokeStyle =
-        `rgba(255, ${particle.orange}, 40, ${alpha})`;
+        `rgba(
+          255,
+          ${particle.orange},
+          40,
+          ${alpha}
+        )`;
 
-      ctx.shadowColor = "#ff7600";
+      ctx.shadowColor =
+        "#ff7600";
+
       ctx.shadowBlur = 4;
       ctx.stroke();
 
       ctx.restore();
     }
 
-    function drawMoltenParticle(particle) {
+    function drawMoltenParticle(
+      particle
+    ) {
       const alpha = clamp(
-        particle.life / particle.maximumLife,
+        particle.life /
+          particle.maximumLife,
         0,
         1
       );
 
       ctx.save();
-
       ctx.beginPath();
 
       ctx.arc(
@@ -1778,9 +1700,16 @@
       );
 
       ctx.fillStyle =
-        `rgba(255, 150, 24, ${alpha})`;
+        `rgba(
+          255,
+          150,
+          24,
+          ${alpha}
+        )`;
 
-      ctx.shadowColor = "#ff6000";
+      ctx.shadowColor =
+        "#ff6000";
+
       ctx.shadowBlur = 6;
       ctx.fill();
 
@@ -1795,23 +1724,34 @@
       );
 
       ctx.fillStyle =
-        `rgba(255, 255, 220, ${alpha})`;
+        `rgba(
+          255,
+          255,
+          220,
+          ${alpha}
+        )`;
 
       ctx.fill();
       ctx.restore();
     }
 
     function drawParticles() {
-      for (const particle of particles) {
+      for (
+        const particle of particles
+      ) {
         if (particle.molten) {
-          drawMoltenParticle(particle);
+          drawMoltenParticle(
+            particle
+          );
         } else {
           drawSpark(particle);
         }
       }
     }
 
-    function drawWeldingArc(position) {
+    function drawWeldingArc(
+      position
+    ) {
       const normalX =
         -position.tangentY;
 
@@ -1822,27 +1762,37 @@
         random(0.72, 1.18);
 
       ctx.save();
-
       ctx.beginPath();
 
       ctx.moveTo(
-        position.x - normalX * 7,
-        position.y - normalY * 7
+        position.x -
+          normalX * 7,
+
+        position.y -
+          normalY * 7
       );
 
       ctx.lineTo(
-        position.x + normalX * 7,
-        position.y + normalY * 7
+        position.x +
+          normalX * 7,
+
+        position.y +
+          normalY * 7
       );
 
       ctx.lineCap = "round";
-      ctx.lineWidth = random(0.9, 2);
+      ctx.lineWidth =
+        random(0.9, 2);
 
       ctx.strokeStyle =
-        "rgba(220, 252, 255, 0.98)";
+        "rgba(220,252,255,0.98)";
 
-      ctx.shadowColor = "#39dfff";
-      ctx.shadowBlur = 12 * flicker;
+      ctx.shadowColor =
+        "#39dfff";
+
+      ctx.shadowBlur =
+        12 * flicker;
+
       ctx.stroke();
 
       const glow =
@@ -1899,7 +1849,9 @@
       );
 
       ctx.fillStyle = "#ffffff";
-      ctx.shadowColor = "#d9fbff";
+      ctx.shadowColor =
+        "#d9fbff";
+
       ctx.shadowBlur = 15;
       ctx.fill();
 
@@ -1908,12 +1860,24 @@
 
     function stopWelding() {
       animationNumber += 1;
-      cancelAnimationFrame(animationFrame);
+
+      cancelAnimationFrame(
+        animationFrame
+      );
 
       particles = [];
 
-      weldingButton.classList.remove("welding");
-      canvas.classList.remove("active");
+      weldingButton.classList.remove(
+        "welding"
+      );
+
+      canvas.classList.remove(
+        "active"
+      );
+
+      weldingStatus.classList.remove(
+        "active"
+      );
 
       ctx.clearRect(
         0,
@@ -1929,12 +1893,23 @@
       const currentAnimation =
         animationNumber;
 
-      cancelAnimationFrame(animationFrame);
+      cancelAnimationFrame(
+        animationFrame
+      );
 
       particles = [];
 
-      canvas.classList.add("active");
-      weldingButton.classList.add("welding");
+      canvas.classList.add(
+        "active"
+      );
+
+      weldingButton.classList.add(
+        "welding"
+      );
+
+      weldingStatus.classList.add(
+        "active"
+      );
 
       const dimensions =
         resizeCanvas();
@@ -1963,26 +1938,37 @@
 
       let lastEmissionTime = 0;
 
-      function animate(currentTime) {
+      function animate(
+        currentTime
+      ) {
         if (
-          currentAnimation !== animationNumber
+          currentAnimation !==
+          animationNumber
         ) {
           return;
         }
 
         const deltaTime = clamp(
-          (currentTime - previousTime) / 1000,
+          (
+            currentTime -
+            previousTime
+          ) / 1000,
           0,
           0.035
         );
 
-        previousTime = currentTime;
+        previousTime =
+          currentTime;
 
         const elapsed =
-          currentTime - startTime;
+          currentTime -
+          startTime;
 
-        const progress =
-          clamp(elapsed / duration, 0, 1);
+        const progress = clamp(
+          elapsed / duration,
+          0,
+          1
+        );
 
         const fadeStart =
           duration + 260;
@@ -1995,10 +1981,14 @@
             ? 1
             : clamp(
                 1 -
-                  (elapsed - fadeStart) /
+                  (
+                    elapsed -
+                    fadeStart
+                  ) /
                     Math.max(
                       1,
-                      fadeEnd - fadeStart
+                      fadeEnd -
+                        fadeStart
                     ),
                 0,
                 1
@@ -2013,6 +2003,7 @@
 
         /*
           Только след позади сварочной точки.
+          Перед сваркой линия отсутствует.
         */
         drawWeldedTrail(
           path,
@@ -2022,13 +2013,20 @@
 
         if (progress < 1) {
           const position =
-            getPointOnPath(path, progress);
+            getPointOnPath(
+              path,
+              progress
+            );
 
-          drawWeldingArc(position);
+          drawWeldingArc(
+            position
+          );
 
           if (
             !reducedMotion.matches &&
-            currentTime - lastEmissionTime > 19
+            currentTime -
+              lastEmissionTime >
+              19
           ) {
             const burst =
               Math.random() < 0.12;
@@ -2045,7 +2043,10 @@
           }
         }
 
-        updateParticles(deltaTime);
+        updateParticles(
+          deltaTime
+        );
+
         drawParticles();
 
         if (
@@ -2054,13 +2055,19 @@
           elapsed < fadeEnd
         ) {
           animationFrame =
-            requestAnimationFrame(animate);
+            requestAnimationFrame(
+              animate
+            );
         } else {
           weldingButton.classList.remove(
             "welding"
           );
 
           canvas.classList.remove(
+            "active"
+          );
+
+          weldingStatus.classList.remove(
             "active"
           );
 
@@ -2074,7 +2081,9 @@
       }
 
       animationFrame =
-        requestAnimationFrame(animate);
+        requestAnimationFrame(
+          animate
+        );
     }
 
     weldingButton.addEventListener(
