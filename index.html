@@ -10,10 +10,10 @@
 
   <meta
     name="description"
-    content="Handyman and electrical services. Installation, repair, replacement, and assembly."
+    content="Sergei Pakhomkin — handyman and electrical services. Installation, repair, replacement and assembly."
   >
 
-  <title>Best Helps — Handyman &amp; Electrical Services</title>
+  <title>Sergei Pakhomkin — Handyman & Electrical Services</title>
 
   <!-- Лампочка во вкладке браузера -->
   <link
@@ -23,12 +23,17 @@
 
   <style>
     :root {
-      --navy: #061e36;
-      --navy-dark: #031426;
-      --orange: #f45b05;
-      --orange-dark: #d84d00;
+      --background: #f5f2ec;
+      --card: #fbf8f2;
+      --card-light: #fffdf9;
+      --black: #151515;
+      --soft-black: #292929;
+      --gray: #66625c;
+      --gold: #c88b0a;
+      --gold-light: #efc568;
+      --gold-dark: #9b6900;
+      --orange: #e15d00;
       --white: #ffffff;
-      --light-text: #d9e3ec;
     }
 
     * {
@@ -42,259 +47,435 @@
     body {
       margin: 0;
       min-height: 100vh;
-      padding: 24px;
+      padding: 28px;
       overflow-x: hidden;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--white);
+      color: var(--black);
       background:
-        linear-gradient(
-          rgba(3, 20, 37, 0.96),
-          rgba(2, 15, 29, 0.99)
-        ),
-        linear-gradient(135deg, #173b5e, #071522);
+        radial-gradient(
+          circle at 50% 0%,
+          rgba(255, 255, 255, 0.98),
+          rgba(245, 242, 236, 0.96) 52%,
+          #ece8e1 100%
+        );
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
     }
 
     .page {
       width: 100%;
-      max-width: 1120px;
+      max-width: 1240px;
       margin: 0 auto;
     }
 
-    .card {
+    .site-card {
+      position: relative;
       width: 100%;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.19);
-      border-radius: 24px;
-      background: rgba(255, 255, 255, 0.065);
-      box-shadow: 0 22px 65px rgba(0, 0, 0, 0.38);
+      border: 1px solid rgba(95, 80, 55, 0.18);
+      border-radius: 36px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.93),
+          rgba(250, 245, 237, 0.97)
+        );
+      box-shadow:
+        0 22px 60px rgba(54, 47, 38, 0.13),
+        0 4px 14px rgba(54, 47, 38, 0.08);
+      isolation: isolate;
     }
 
-    .main-content {
-      padding: 44px 46px 42px;
+    /*
+      Декоративный почти незаметный флаг.
+    */
+    .flag-art {
+      position: absolute;
+      z-index: -2;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
     }
 
-    .header {
-      position: relative;
-      text-align: center;
+    .flag-overlay {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.25),
+          rgba(255, 255, 255, 0.62) 38%,
+          rgba(255, 255, 255, 0.2)
+        ),
+        linear-gradient(
+          180deg,
+          rgba(255, 253, 249, 0.15),
+          rgba(255, 250, 243, 0.62)
+        );
+      pointer-events: none;
     }
 
-    /* Лампочка-кнопка */
-    .bulb-button {
-      position: relative;
-      display: inline-flex;
+    /*
+      Золотой квадрат сверху, как на визитке.
+    */
+    .gold-tab {
+      position: absolute;
+      z-index: 5;
+      top: -4px;
+      left: 50%;
+      width: 92px;
+      height: 116px;
+      border: 1px solid rgba(142, 91, 0, 0.65);
+      border-radius: 0 0 3px 3px;
+      background:
+        radial-gradient(
+          circle at 20% 28%,
+          rgba(255, 255, 255, 0.62) 0 2px,
+          transparent 3px
+        ),
+        radial-gradient(
+          circle at 72% 65%,
+          rgba(255, 255, 255, 0.38) 0 2px,
+          transparent 3px
+        ),
+        repeating-linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.16) 0 2px,
+          transparent 2px 7px
+        ),
+        linear-gradient(
+          145deg,
+          #f9d87b,
+          #c99116 48%,
+          #f2c85d 72%,
+          #a96f00
+        );
+      box-shadow:
+        inset 0 0 14px rgba(255, 255, 255, 0.55),
+        inset 0 -12px 20px rgba(116, 71, 0, 0.16),
+        0 3px 7px rgba(102, 73, 21, 0.18);
+      transform: translateX(-50%);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(270px, 0.78fr) minmax(0, 1.65fr);
+      gap: 54px;
+      align-items: center;
+      padding: 150px 72px 58px;
+    }
+
+    .bulb-area {
+      display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 0 14px;
-      padding: 7px;
-      border: 0;
-      border-radius: 50%;
-      color: inherit;
-      background: transparent;
-      font: inherit;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      transition:
-        transform 0.2s ease,
-        filter 0.2s ease;
     }
 
-    .bulb-button::before {
-      position: absolute;
-      inset: 4px;
-      border-radius: 50%;
-      background: rgba(255, 178, 45, 0.12);
-      box-shadow:
-        0 0 20px rgba(255, 196, 67, 0.15),
-        0 0 42px rgba(244, 91, 5, 0.08);
-      content: "";
-      opacity: 0;
-      transform: scale(0.7);
+    .bulb-button {
+      position: relative;
+      width: min(100%, 390px);
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
       transition:
-        opacity 0.2s ease,
-        transform 0.2s ease;
+        transform 0.24s ease,
+        filter 0.24s ease;
     }
 
     .bulb-button:hover {
-      transform: scale(1.12);
+      transform: scale(1.035);
       filter:
-        drop-shadow(0 0 8px rgba(255, 218, 95, 0.95))
-        drop-shadow(0 0 22px rgba(244, 91, 5, 0.55));
-    }
-
-    .bulb-button:hover::before {
-      opacity: 1;
-      transform: scale(1.25);
+        drop-shadow(0 0 8px rgba(216, 160, 38, 0.35))
+        drop-shadow(0 0 20px rgba(255, 204, 82, 0.24));
     }
 
     .bulb-button:active {
-      transform: scale(0.92);
+      transform: scale(0.97);
     }
 
     .bulb-button:focus-visible {
-      outline: 3px solid var(--orange);
-      outline-offset: 5px;
+      outline: 3px solid var(--gold);
+      outline-offset: 7px;
+      border-radius: 20px;
     }
 
     .bulb-button.welding {
-      animation: bulbPulse 0.28s ease-in-out infinite alternate;
+      animation: bulbPulse 0.22s ease-in-out infinite alternate;
     }
 
-    .bulb {
-      position: relative;
-      z-index: 1;
+    .bulb-graphic {
       display: block;
-      font-size: 57px;
-      line-height: 1;
-      user-select: none;
+      width: 100%;
+      height: auto;
+      overflow: visible;
     }
 
     @keyframes bulbPulse {
       from {
-        transform: scale(0.95);
         filter:
-          drop-shadow(0 0 7px #fff5b5)
-          drop-shadow(0 0 15px #ff9a21);
+          drop-shadow(0 0 5px rgba(255, 225, 151, 0.8))
+          drop-shadow(0 0 12px rgba(219, 142, 10, 0.4));
       }
 
       to {
-        transform: scale(1.1);
         filter:
-          drop-shadow(0 0 16px #ffffff)
-          drop-shadow(0 0 36px #ff5e00);
+          drop-shadow(0 0 14px rgba(255, 255, 240, 1))
+          drop-shadow(0 0 32px rgba(238, 144, 0, 0.72));
       }
     }
 
-    .website-address {
-      margin-bottom: 18px;
-      color: var(--white);
-      font-size: 27px;
-      font-weight: 900;
-      letter-spacing: -0.5px;
+    .hero-content {
+      min-width: 0;
+      padding-top: 18px;
     }
 
-    .website-address strong {
-      color: var(--orange);
-      font-size: 34px;
-    }
-
-    .main-title {
-      display: inline-block;
-      margin: 0;
-      padding: 0 26px 15px;
-      border-bottom: 4px solid var(--orange);
-      color: var(--white);
-      font-size: 30px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      line-height: 1.25;
+    .domain {
+      margin-bottom: 16px;
+      color: var(--gray);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
     }
 
-    /*
-      Сварочная анимация поверх видимой страницы.
-      Canvas не занимает место и не сдвигает сайт.
-    */
-    .welding-overlay {
-      position: fixed;
-      z-index: 9999;
-      inset: 0;
-      display: block;
-      width: 100vw;
-      height: 100vh;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.12s ease;
+    .domain strong {
+      color: var(--gold-dark);
     }
 
-    .welding-overlay.active {
-      opacity: 1;
+    .name {
+      margin: 0;
+      color: var(--black);
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+      font-size: clamp(42px, 5.3vw, 76px);
+      font-weight: 400;
+      line-height: 1.07;
+      letter-spacing: 0.115em;
+      text-transform: uppercase;
+    }
+
+    .profession {
+      margin: 26px 0 0;
+      color: var(--soft-black);
+      font-size: clamp(18px, 2.2vw, 30px);
+      font-weight: 400;
+      line-height: 1.42;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    .gold-divider {
+      width: 100%;
+      height: 2px;
+      margin: 30px 0 35px;
+      border: 0;
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold-dark),
+          var(--gold-light),
+          var(--gold-dark)
+        );
+      box-shadow:
+        0 1px 2px rgba(112, 74, 0, 0.16);
+    }
+
+    .quick-contact {
+      display: grid;
+      gap: 20px;
+    }
+
+    .quick-contact-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      min-width: 0;
+    }
+
+    .round-icon {
+      display: inline-flex;
+      flex: 0 0 52px;
+      width: 52px;
+      height: 52px;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      color: var(--gold-dark);
+      background: rgba(255, 255, 255, 0.44);
+    }
+
+    .round-icon svg {
+      width: 27px;
+      height: 27px;
+      stroke: currentColor;
+    }
+
+    .quick-contact-label {
+      color: var(--soft-black);
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+      font-size: clamp(23px, 2.7vw, 38px);
+      line-height: 1.2;
+    }
+
+    .quick-contact-label strong {
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .quick-contact-link {
+      color: inherit;
+      text-decoration: none;
+      overflow-wrap: anywhere;
+      transition: color 0.2s ease;
+    }
+
+    .quick-contact-link:hover {
+      color: var(--gold-dark);
+    }
+
+    .content-section {
+      position: relative;
+      margin: 0 62px;
+      padding: 50px 10px;
+      border-top: 1px solid rgba(145, 106, 31, 0.29);
+    }
+
+    .section-title {
+      margin: 0 0 14px;
+      color: var(--black);
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+      font-size: clamp(31px, 4vw, 50px);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .section-subtitle {
+      max-width: 760px;
+      margin: 0 auto 34px;
+      color: var(--gray);
+      font-size: 18px;
+      line-height: 1.7;
+      text-align: center;
     }
 
     .work-types {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px 21px;
-      margin: 27px 0 31px;
-      color: var(--orange);
-      font-size: 25px;
-      font-weight: 900;
+      gap: 10px 17px;
+      margin: 0 0 38px;
+      color: var(--gold-dark);
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+      font-size: clamp(21px, 2.5vw, 31px);
+      font-weight: 600;
     }
 
-    .work-type {
-      white-space: nowrap;
+    .work-separator {
+      color: var(--black);
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 13px;
+      line-height: 2.2;
     }
 
-    .separator {
-      color: var(--white);
-      font-size: 18px;
-      line-height: 1.5;
-    }
-
-    .service-columns {
+    .services-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr 1.05fr;
-      gap: 18px 42px;
-      width: 100%;
-      max-width: 970px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px 42px;
+      max-width: 980px;
       margin: 0 auto;
     }
 
-    .service-column {
+    .services-column {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 17px;
     }
 
     .service-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      color: var(--white);
+      gap: 13px;
+      min-width: 0;
+      color: var(--soft-black);
       font-size: 19px;
-      font-weight: 700;
-      line-height: 1.25;
+      font-weight: 600;
+      line-height: 1.3;
     }
 
-    .checkmark {
+    .service-check {
       display: inline-flex;
-      flex: 0 0 30px;
-      width: 30px;
-      height: 30px;
+      flex: 0 0 29px;
+      width: 29px;
+      height: 29px;
       align-items: center;
       justify-content: center;
-      border: 2px solid var(--orange);
+      border: 2px solid var(--gold);
       border-radius: 50%;
-      color: var(--orange);
-      font-size: 20px;
+      color: var(--gold-dark);
+      background: rgba(255, 255, 255, 0.48);
+      font-size: 18px;
       font-weight: 900;
     }
 
     .coming-soon {
-      margin-top: 42px;
-      padding-top: 33px;
-      border-top: 1px solid rgba(255, 255, 255, 0.18);
       text-align: center;
     }
 
-    .coming-soon h2 {
-      margin: 0 0 13px;
-      font-size: 29px;
+    .coming-soon-title {
+      margin: 0 0 14px;
+      color: var(--black);
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+      font-size: clamp(31px, 4vw, 50px);
+      font-weight: 400;
+      letter-spacing: 0.04em;
     }
 
-    .message {
-      max-width: 650px;
-      margin: 0 auto 27px;
-      color: var(--light-text);
+    .coming-soon-message {
+      max-width: 690px;
+      margin: 0 auto 30px;
+      color: var(--gray);
       font-size: 18px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .contact-buttons {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 14px;
+      gap: 15px;
     }
 
     .contact-button {
@@ -302,173 +483,204 @@
       min-height: 54px;
       align-items: center;
       justify-content: center;
-      padding: 14px 23px;
-      border: 2px solid var(--orange);
-      border-radius: 12px;
-      color: var(--white);
-      background: var(--orange);
+      padding: 14px 27px;
+      border: 2px solid var(--gold);
+      border-radius: 999px;
+      color: var(--black);
+      background: rgba(255, 255, 255, 0.53);
       font-size: 17px;
-      font-weight: 800;
+      font-weight: 700;
       text-decoration: none;
+      box-shadow:
+        0 4px 13px rgba(92, 66, 19, 0.08);
       transition:
+        color 0.2s ease,
         background 0.2s ease,
-        transform 0.2s ease;
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
     }
 
     .contact-button:hover {
-      background: var(--orange-dark);
+      color: #1b1305;
+      background:
+        linear-gradient(
+          145deg,
+          #f6d77e,
+          #c68a08
+        );
+      box-shadow:
+        0 8px 20px rgba(120, 83, 15, 0.19);
       transform: translateY(-2px);
     }
 
-    .contact-button.secondary {
-      background: transparent;
-    }
-
-    .contact-button.secondary:hover {
-      background: rgba(244, 91, 5, 0.14);
-    }
-
-    .preferred {
-      margin-top: 18px;
-      color: #bac8d4;
+    .preferred-contact {
+      margin-top: 19px;
+      color: var(--gray);
       font-size: 14px;
+      letter-spacing: 0.04em;
     }
 
-    .contact-bar {
-      display: grid;
-      grid-template-columns: 1fr 1.45fr;
-      border-top: 4px solid var(--orange);
-      background:
-        linear-gradient(
-          135deg,
-          #062542,
-          #031a31
-        );
-    }
-
-    .contact-block {
+    .site-footer {
       display: flex;
-      min-height: 92px;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 17px;
-      padding: 21px 32px;
+      justify-content: space-between;
+      gap: 22px;
+      margin: 0 62px;
+      padding: 28px 10px 35px;
+      border-top: 1px solid rgba(145, 106, 31, 0.29);
+      color: var(--gray);
+      font-size: 15px;
     }
 
-    .contact-block + .contact-block {
-      border-left: 1px solid rgba(255, 255, 255, 0.18);
-    }
-
-    .contact-icon {
-      display: inline-flex;
-      flex: 0 0 48px;
-      width: 48px;
-      height: 48px;
-      align-items: center;
-      justify-content: center;
-      border-radius: 13px;
-      background: var(--orange);
-      font-size: 25px;
-    }
-
-    .contact-link {
-      color: var(--white);
-      font-size: 21px;
-      font-weight: 800;
+    .footer-domain {
+      color: var(--black);
+      font-size: 18px;
+      font-weight: 700;
       text-decoration: none;
-      overflow-wrap: anywhere;
     }
 
-    .contact-link:hover {
-      color: #ffb07d;
+    .footer-domain strong {
+      color: var(--gold-dark);
     }
 
-    .domain-link strong {
-      color: var(--orange);
+    /*
+      Canvas сварки поверх всей страницы.
+    */
+    .welding-overlay {
+      position: fixed;
+      z-index: 9999;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.1s ease;
     }
 
-    @media (max-width: 900px) {
-      .service-columns {
-        grid-template-columns: 1fr 1fr;
+    .welding-overlay.active {
+      opacity: 1;
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 0.75fr 1.25fr;
+        gap: 28px;
+        padding-right: 42px;
+        padding-left: 42px;
       }
 
-      .service-column:last-child {
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .services-column:last-child {
         grid-column: 1 / -1;
         display: grid;
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .contact-bar {
-        grid-template-columns: 1fr;
-      }
-
-      .contact-block + .contact-block {
-        border-top: 1px solid rgba(255, 255, 255, 0.18);
-        border-left: 0;
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    @media (max-width: 650px) {
+    @media (max-width: 760px) {
       body {
-        padding: 10px;
+        padding: 12px;
       }
 
-      .card {
-        border-radius: 18px;
+      .site-card {
+        border-radius: 24px;
       }
 
-      .main-content {
-        padding: 34px 20px 31px;
+      .gold-tab {
+        width: 67px;
+        height: 82px;
       }
 
-      .bulb {
-        font-size: 49px;
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 108px 24px 42px;
+        text-align: center;
       }
 
-      .website-address {
-        font-size: 20px;
+      .bulb-button {
+        width: min(76%, 300px);
       }
 
-      .website-address strong {
-        font-size: 27px;
+      .hero-content {
+        padding-top: 0;
       }
 
-      .main-title {
-        padding-right: 5px;
-        padding-left: 5px;
-        font-size: 21px;
-      }
-
-      .work-types {
-        gap: 7px 11px;
-        margin-top: 23px;
-        font-size: 19px;
-      }
-
-      .separator {
+      .domain {
         font-size: 14px;
       }
 
-      .service-columns {
+      .name {
+        font-size: clamp(35px, 10vw, 55px);
+        letter-spacing: 0.08em;
+      }
+
+      .profession {
+        font-size: 17px;
+        letter-spacing: 0.18em;
+      }
+
+      .gold-divider {
+        margin: 25px 0 28px;
+      }
+
+      .quick-contact {
+        display: inline-grid;
+        text-align: left;
+      }
+
+      .quick-contact-label {
+        font-size: 23px;
+      }
+
+      .round-icon {
+        flex-basis: 45px;
+        width: 45px;
+        height: 45px;
+      }
+
+      .round-icon svg {
+        width: 23px;
+        height: 23px;
+      }
+
+      .content-section {
+        margin: 0 22px;
+        padding: 40px 0;
+      }
+
+      .site-footer {
+        margin: 0 22px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .services-grid {
         grid-template-columns: 1fr;
         max-width: 390px;
       }
 
-      .service-column,
-      .service-column:last-child {
+      .services-column:last-child {
         display: flex;
         grid-column: auto;
       }
 
+      .section-subtitle,
+      .coming-soon-message {
+        font-size: 16px;
+      }
+
+      .work-types {
+        gap: 7px 10px;
+        font-size: 20px;
+      }
+
       .service-item {
         font-size: 17px;
-      }
-
-      .coming-soon h2 {
-        font-size: 25px;
-      }
-
-      .message {
-        font-size: 16px;
       }
 
       .contact-buttons {
@@ -479,20 +691,29 @@
         width: 100%;
       }
 
-      .contact-block {
-        min-height: auto;
-        padding: 19px 21px;
+      .site-footer {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
       }
 
-      .contact-link {
-        font-size: 17px;
+      .bulb-button.welding {
+        animation: none;
       }
     }
   </style>
 </head>
 
 <body>
-  <!-- Анимация сварки поверх страницы -->
+  <!-- Эффект сварки поверх сайта -->
   <canvas
     class="welding-overlay"
     id="weldingCanvas"
@@ -500,12 +721,82 @@
   ></canvas>
 
   <main class="page">
-    <section class="card">
+    <article class="site-card">
 
-      <div class="main-content">
+      <!-- Фоновый флаг -->
+      <svg
+        class="flag-art"
+        viewBox="0 0 1200 1050"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id="starArea" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#dce3e8" stop-opacity="0.5"/>
+            <stop offset="1" stop-color="#f3f5f5" stop-opacity="0.08"/>
+          </linearGradient>
 
-        <header class="header">
+          <linearGradient id="redWave" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#c34235" stop-opacity="0.015"/>
+            <stop offset="0.55" stop-color="#c34235" stop-opacity="0.07"/>
+            <stop offset="1" stop-color="#b93128" stop-opacity="0.035"/>
+          </linearGradient>
 
+          <filter id="softBlur">
+            <feGaussianBlur stdDeviation="1.6"/>
+          </filter>
+        </defs>
+
+        <path
+          d="M0 0H535C510 110 470 175 400 248C320 330 214 390 0 410Z"
+          fill="url(#starArea)"
+          opacity="0.42"
+        />
+
+        <g
+          fill="#ffffff"
+          opacity="0.55"
+          transform="translate(18 20)"
+        >
+          <text x="15" y="60" font-size="65">★</text>
+          <text x="105" y="42" font-size="54">★</text>
+          <text x="185" y="76" font-size="66">★</text>
+          <text x="292" y="48" font-size="52">★</text>
+          <text x="383" y="82" font-size="68">★</text>
+
+          <text x="56" y="155" font-size="58">★</text>
+          <text x="157" y="137" font-size="67">★</text>
+          <text x="268" y="173" font-size="56">★</text>
+          <text x="370" y="150" font-size="68">★</text>
+
+          <text x="16" y="255" font-size="68">★</text>
+          <text x="118" y="240" font-size="52">★</text>
+          <text x="218" y="282" font-size="65">★</text>
+          <text x="333" y="250" font-size="56">★</text>
+        </g>
+
+        <g
+          fill="none"
+          stroke="url(#redWave)"
+          stroke-width="58"
+          filter="url(#softBlur)"
+        >
+          <path d="M430 40C650 115 780 0 1200 90"/>
+          <path d="M380 150C650 230 820 105 1220 205"/>
+          <path d="M315 280C610 345 810 245 1220 335"/>
+          <path d="M190 430C520 480 760 405 1220 475"/>
+          <path d="M0 610C430 555 710 600 1220 555"/>
+          <path d="M0 770C400 710 760 790 1220 700"/>
+          <path d="M0 930C400 850 780 970 1220 855"/>
+        </g>
+      </svg>
+
+      <div class="flag-overlay"></div>
+      <div class="gold-tab" aria-hidden="true"></div>
+
+      <section class="hero">
+
+        <div class="bulb-area">
           <button
             class="bulb-button"
             id="weldingButton"
@@ -513,173 +804,434 @@
             aria-label="Start welding effect"
             title="Start welding"
           >
-            <span class="bulb" aria-hidden="true">💡</span>
-          </button>
+            <svg
+              class="bulb-graphic"
+              viewBox="0 0 420 520"
+              role="img"
+              aria-label="Light bulb"
+            >
+              <defs>
+                <radialGradient id="bulbGlass" cx="48%" cy="38%" r="58%">
+                  <stop offset="0" stop-color="#fffdf1"/>
+                  <stop offset="0.34" stop-color="#ffe7a4"/>
+                  <stop offset="0.67" stop-color="#e6a52e"/>
+                  <stop offset="1" stop-color="#b86d00"/>
+                </radialGradient>
 
-          <div class="website-address">
+                <linearGradient id="bulbEdge" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#ffd86c"/>
+                  <stop offset="0.48" stop-color="#b97305"/>
+                  <stop offset="1" stop-color="#f3bf48"/>
+                </linearGradient>
+
+                <linearGradient id="baseMetal" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#080808"/>
+                  <stop offset="0.48" stop-color="#404040"/>
+                  <stop offset="0.72" stop-color="#090909"/>
+                  <stop offset="1" stop-color="#2b2b2b"/>
+                </linearGradient>
+
+                <filter id="bulbGlow">
+                  <feGaussianBlur stdDeviation="14"/>
+                </filter>
+
+                <filter id="softShadow">
+                  <feDropShadow
+                    dx="0"
+                    dy="7"
+                    stdDeviation="7"
+                    flood-color="#000000"
+                    flood-opacity="0.25"
+                  />
+                </filter>
+              </defs>
+
+              <ellipse
+                cx="196"
+                cy="188"
+                rx="119"
+                ry="143"
+                fill="#ffd86b"
+                opacity="0.22"
+                filter="url(#bulbGlow)"
+              />
+
+              <path
+                d="M192 42
+                   C111 42 57 102 57 184
+                   C57 247 91 278 114 309
+                   C129 330 135 348 136 370
+                   H249
+                   C251 347 258 329 274 306
+                   C298 272 328 242 328 184
+                   C328 101 274 42 192 42Z"
+                fill="url(#bulbGlass)"
+                stroke="url(#bulbEdge)"
+                stroke-width="5"
+                filter="url(#softShadow)"
+              />
+
+              <path
+                d="M92 182
+                   C92 111 138 67 192 67
+                   C246 67 293 110 293 182"
+                fill="none"
+                stroke="rgba(255,255,255,0.78)"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+
+              <ellipse
+                cx="165"
+                cy="126"
+                rx="39"
+                ry="58"
+                fill="#ffffff"
+                opacity="0.18"
+                transform="rotate(-26 165 126)"
+              />
+
+              <path
+                d="M133 186
+                   C146 161 154 161 166 185
+                   C177 159 186 159 198 185
+                   C210 159 219 160 231 186"
+                fill="none"
+                stroke="#ef5b36"
+                stroke-width="5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+              <path
+                d="M133 186L150 293
+                   M166 185L174 293
+                   M198 185L198 293
+                   M231 186L219 293"
+                fill="none"
+                stroke="#ef5b36"
+                stroke-width="4"
+              />
+
+              <rect
+                x="143"
+                y="285"
+                width="15"
+                height="78"
+                rx="3"
+                fill="#2b2b2b"
+              />
+
+              <rect
+                x="171"
+                y="285"
+                width="15"
+                height="78"
+                rx="3"
+                fill="#383838"
+              />
+
+              <rect
+                x="197"
+                y="285"
+                width="15"
+                height="78"
+                rx="3"
+                fill="#141414"
+              />
+
+              <rect
+                x="224"
+                y="285"
+                width="15"
+                height="78"
+                rx="3"
+                fill="#333333"
+              />
+
+              <g filter="url(#softShadow)">
+                <rect
+                  x="126"
+                  y="351"
+                  width="132"
+                  height="31"
+                  rx="15"
+                  fill="url(#baseMetal)"
+                />
+
+                <rect
+                  x="123"
+                  y="377"
+                  width="138"
+                  height="31"
+                  rx="15"
+                  fill="url(#baseMetal)"
+                />
+
+                <rect
+                  x="126"
+                  y="403"
+                  width="131"
+                  height="31"
+                  rx="15"
+                  fill="url(#baseMetal)"
+                />
+
+                <rect
+                  x="134"
+                  y="429"
+                  width="115"
+                  height="28"
+                  rx="14"
+                  fill="url(#baseMetal)"
+                />
+
+                <path
+                  d="M151 453H232
+                     C229 477 216 488 191 488
+                     C166 488 153 477 151 453Z"
+                  fill="#111111"
+                />
+              </g>
+
+              <path
+                d="M190 488
+                   C164 514 133 498 113 479
+                   C82 450 51 459 42 485
+                   C33 512 59 524 88 510
+                   C120 495 123 463 98 447
+                   C71 430 42 436 24 454"
+                fill="none"
+                stroke="#111111"
+                stroke-width="17"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="hero-content">
+          <div class="domain">
             www.<strong>besthelps</strong>.com
           </div>
 
-          <h1 class="main-title">
-            Handyman &amp; Electrical Services
+          <h1 class="name">
+            Sergei Pakhomkin
           </h1>
 
-        </header>
-
-        <div class="work-types" aria-label="Types of work">
-          <span class="work-type">Installation</span>
-          <span class="separator">●</span>
-
-          <span class="work-type">Repair</span>
-          <span class="separator">●</span>
-
-          <span class="work-type">Replacement</span>
-          <span class="separator">●</span>
-
-          <span class="work-type">Assembly</span>
-        </div>
-
-        <section class="service-list" aria-label="Our services">
-          <div class="service-columns">
-
-            <div class="service-column">
-              <div class="service-item">
-                <span class="checkmark">✓</span>
-                <span>Electrical Fixtures</span>
-              </div>
-
-              <div class="service-item">
-                <span class="checkmark">✓</span>
-                <span>Switches</span>
-              </div>
-
-              <div class="service-item">
-                <span class="checkmark">✓</span>
-                <span>Smart Switches</span>
-              </div>
-
-              <div class="service-item">
-                <span class="checkmark">✓</span>
-                <span>Outlets</span>
-              </div>
-
-              <div class="service-item">
-                <span class="checkmark">✓</span>
-                <span>Ceiling Fans</span>
-              </div>
-            </div>
-
-            <div class="service-column">
-              <div class="service-item">
-                <span class="checkmark">✓</span>
-                <span>Lights</span>
-              </div>
-
-              <div class="service-item">
-                <span class="checkmark">✓</span>
-                <span>Doorbells</span>
-              </div>
-
-              <div class="service-item">
-                <span class="checkmark">✓</span>
-                <span>Locks</span>
-              </div>
-
-              <div class="service-item">
-                <span class="checkmark">✓</span>
-                <span>Shelves</span>
-              </div>
-
-              <div class="service-item">
-                <span class="checkmark">✓</span>
-                <span>Appliances</span>
-              </div>
-            </div>
-
-            <div class="service-column">
-              <div class="service-item">
-                <span class="checkmark">✓</span>
-                <span>Furniture Assembly</span>
-              </div>
-
-              <div class="service-item">
-                <span class="checkmark">✓</span>
-                <span>Garage Door Openers</span>
-              </div>
-
-              <div class="service-item">
-                <span class="checkmark">✓</span>
-                <span>Faucets</span>
-              </div>
-
-              <div class="service-item">
-                <span class="checkmark">✓</span>
-                <span>And More</span>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        <section class="coming-soon">
-          <h2>Our website is coming soon</h2>
-
-          <p class="message">
-            We are currently building our full website.
-            Please contact us by email or text for service requests
-            and estimates.
+          <p class="profession">
+            Handyman &amp; Electrical Services
           </p>
 
-          <div class="contact-buttons">
-            <a
-              class="contact-button"
-              href="sms:+12244530785"
-            >
-              Text: 224-453-0785
-            </a>
+          <hr class="gold-divider">
 
-            <a
-              class="contact-button secondary"
-              href="mailto:services@besthelps.com"
-            >
-              Email Us
-            </a>
+          <div class="quick-contact">
+
+            <div class="quick-contact-row">
+              <span class="round-icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M4 5.5h16v11H9l-5 3v-14Z"/>
+                  <path d="M8 9h8"/>
+                  <path d="M8 12.5h6"/>
+                </svg>
+              </span>
+
+              <div class="quick-contact-label">
+                Text:
+                <a
+                  class="quick-contact-link"
+                  href="sms:+12244530785"
+                >
+                  <strong>224-453-0785</strong>
+                </a>
+              </div>
+            </div>
+
+            <div class="quick-contact-row">
+              <span class="round-icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="5" width="18" height="14" rx="1.5"/>
+                  <path d="m4 7 8 6 8-6"/>
+                </svg>
+              </span>
+
+              <div class="quick-contact-label">
+                <a
+                  class="quick-contact-link"
+                  href="mailto:services@besthelps.com"
+                >
+                  services@besthelps.com
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <section class="content-section">
+        <h2 class="section-title">
+          Services
+        </h2>
+
+        <p class="section-subtitle">
+          Reliable help with installation, repair, replacement
+          and assembly for your home.
+        </p>
+
+        <div class="work-types" aria-label="Types of work">
+          <span>Installation</span>
+          <span class="work-separator">●</span>
+
+          <span>Repair</span>
+          <span class="work-separator">●</span>
+
+          <span>Replacement</span>
+          <span class="work-separator">●</span>
+
+          <span>Assembly</span>
+        </div>
+
+        <div class="services-grid">
+
+          <div class="services-column">
+            <div class="service-item">
+              <span class="service-check">✓</span>
+              <span>Electrical Fixtures</span>
+            </div>
+
+            <div class="service-item">
+              <span class="service-check">✓</span>
+              <span>Switches</span>
+            </div>
+
+            <div class="service-item">
+              <span class="service-check">✓</span>
+              <span>Smart Switches</span>
+            </div>
+
+            <div class="service-item">
+              <span class="service-check">✓</span>
+              <span>Outlets</span>
+            </div>
+
+            <div class="service-item">
+              <span class="service-check">✓</span>
+              <span>Ceiling Fans</span>
+            </div>
           </div>
 
-          <div class="preferred">
-            Preferred contact: Email or Text
+          <div class="services-column">
+            <div class="service-item">
+              <span class="service-check">✓</span>
+              <span>Lights</span>
+            </div>
+
+            <div class="service-item">
+              <span class="service-check">✓</span>
+              <span>Doorbells</span>
+            </div>
+
+            <div class="service-item">
+              <span class="service-check">✓</span>
+              <span>Locks</span>
+            </div>
+
+            <div class="service-item">
+              <span class="service-check">✓</span>
+              <span>Shelves</span>
+            </div>
+
+            <div class="service-item">
+              <span class="service-check">✓</span>
+              <span>Appliances</span>
+            </div>
           </div>
-        </section>
 
-      </div>
+          <div class="services-column">
+            <div class="service-item">
+              <span class="service-check">✓</span>
+              <span>Furniture Assembly</span>
+            </div>
 
-      <footer class="contact-bar">
+            <div class="service-item">
+              <span class="service-check">✓</span>
+              <span>Garage Door Openers</span>
+            </div>
 
-        <div class="contact-block">
-          <span class="contact-icon" aria-hidden="true">✉</span>
+            <div class="service-item">
+              <span class="service-check">✓</span>
+              <span>Faucets</span>
+            </div>
+
+            <div class="service-item">
+              <span class="service-check">✓</span>
+              <span>And More</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="content-section coming-soon">
+        <h2 class="coming-soon-title">
+          Our website is coming soon
+        </h2>
+
+        <p class="coming-soon-message">
+          We are currently building our full website.
+          Please contact us by text or email for service requests,
+          questions and estimates.
+        </p>
+
+        <div class="contact-buttons">
+          <a
+            class="contact-button"
+            href="sms:+12244530785"
+          >
+            Text: 224-453-0785
+          </a>
 
           <a
-            class="contact-link"
+            class="contact-button"
             href="mailto:services@besthelps.com"
           >
             services@besthelps.com
           </a>
         </div>
 
-        <div class="contact-block">
-          <span class="contact-icon" aria-hidden="true">🌐</span>
-
-          <a
-            class="contact-link domain-link"
-            href="https://www.besthelps.com"
-          >
-            www.<strong>besthelps</strong>.com
-          </a>
+        <div class="preferred-contact">
+          Preferred contact: Email or Text
         </div>
+      </section>
 
+      <footer class="site-footer">
+        <span>
+          © 2026 Sergei Pakhomkin
+        </span>
+
+        <a
+          class="footer-domain"
+          href="https://www.besthelps.com"
+        >
+          www.<strong>besthelps</strong>.com
+        </a>
       </footer>
 
-    </section>
+    </article>
   </main>
 
   <script>
@@ -733,51 +1285,51 @@
     }
 
     /*
-      Создание случайной ломаной диагонали.
-      Полная траектория не рисуется заранее.
+      Случайная диагональная ломаная линия.
+      Она не рисуется заранее.
     */
     function createJaggedPath(width, height) {
-      const outside = 70;
+      const outside = 60;
 
       const variants = [
         {
           start: {
             x: -outside,
-            y: random(height * 0.03, height * 0.28)
+            y: random(height * 0.05, height * 0.3)
           },
           end: {
             x: width + outside,
-            y: random(height * 0.72, height * 0.97)
+            y: random(height * 0.7, height * 0.95)
           }
         },
         {
           start: {
             x: width + outside,
-            y: random(height * 0.03, height * 0.28)
+            y: random(height * 0.05, height * 0.3)
           },
           end: {
             x: -outside,
-            y: random(height * 0.72, height * 0.97)
+            y: random(height * 0.7, height * 0.95)
           }
         },
         {
           start: {
             x: -outside,
-            y: random(height * 0.72, height * 0.97)
+            y: random(height * 0.7, height * 0.95)
           },
           end: {
             x: width + outside,
-            y: random(height * 0.03, height * 0.28)
+            y: random(height * 0.05, height * 0.3)
           }
         },
         {
           start: {
             x: width + outside,
-            y: random(height * 0.72, height * 0.97)
+            y: random(height * 0.7, height * 0.95)
           },
           end: {
             x: -outside,
-            y: random(height * 0.03, height * 0.28)
+            y: random(height * 0.05, height * 0.3)
           }
         }
       ];
@@ -799,7 +1351,7 @@
       const points = [start];
 
       const maximumOffset =
-        Math.min(width, height) * random(0.11, 0.23);
+        Math.min(width, height) * random(0.1, 0.21);
 
       let previousSide =
         Math.random() < 0.5 ? -1 : 1;
@@ -813,7 +1365,7 @@
           index / (pointCount - 1);
 
         const unevenT = clamp(
-          baseT + random(-0.032, 0.032),
+          baseT + random(-0.03, 0.03),
           0.03,
           0.97
         );
@@ -825,28 +1377,20 @@
         const offset =
           previousSide *
           random(
-            maximumOffset * 0.38,
+            maximumOffset * 0.4,
             maximumOffset
-          );
-
-        const parallelJitter =
-          random(
-            -directLength * 0.018,
-            directLength * 0.018
           );
 
         points.push({
           x:
             start.x +
             dx * unevenT +
-            normalX * offset +
-            (dx / directLength) * parallelJitter,
+            normalX * offset,
 
           y:
             start.y +
             dy * unevenT +
-            normalY * offset +
-            (dy / directLength) * parallelJitter
+            normalY * offset
         });
       }
 
@@ -935,7 +1479,7 @@
     }
 
     /*
-      Рисуется только уже пройденная часть траектории.
+      Рисуется только уже пройденная часть.
     */
     function drawPathUntil(
       path,
@@ -987,7 +1531,7 @@
 
       ctx.lineCap = "round";
       ctx.lineJoin = "miter";
-      ctx.miterLimit = 14;
+      ctx.miterLimit = 15;
       ctx.lineWidth = lineWidth;
       ctx.strokeStyle = color;
       ctx.shadowColor = color;
@@ -996,41 +1540,37 @@
       ctx.restore();
     }
 
-    /*
-      Горячий след сварки.
-      Непройденная часть линии отсутствует.
-    */
     function drawWeldedTrail(path, progress, opacity) {
       drawPathUntil(
         path,
         progress,
-        `rgba(255, 40, 0, ${0.22 * opacity})`,
-        12,
-        21
+        `rgba(255, 50, 0, ${0.18 * opacity})`,
+        10,
+        18
       );
 
       drawPathUntil(
         path,
         progress,
-        `rgba(255, 82, 0, ${0.62 * opacity})`,
-        6,
-        14
+        `rgba(255, 105, 0, ${0.55 * opacity})`,
+        4.4,
+        11
       );
 
       drawPathUntil(
         path,
         progress,
-        `rgba(255, 165, 30, ${0.92 * opacity})`,
-        2.8,
-        9
+        `rgba(255, 200, 86, ${0.85 * opacity})`,
+        1.8,
+        6
       );
 
       drawPathUntil(
         path,
         progress,
-        `rgba(255, 247, 195, ${0.92 * opacity})`,
-        1,
-        5
+        `rgba(255, 255, 225, ${0.8 * opacity})`,
+        0.7,
+        3
       );
     }
 
@@ -1039,7 +1579,7 @@
       y,
       tangentX,
       tangentY,
-      type
+      molten
     ) {
       const directionAngle =
         Math.atan2(tangentY, tangentX);
@@ -1049,79 +1589,64 @@
 
       const angle =
         directionAngle +
-        side * random(0.38, 2.75) +
-        random(-0.55, 0.55);
+        side * random(0.45, 2.65) +
+        random(-0.45, 0.45);
 
-      const molten =
-        type === "molten";
+      const speed =
+        molten
+          ? random(130, 380)
+          : random(300, 760);
 
-      const heavy =
-        type === "heavy";
-
-      let speed;
-      let life;
-      let size;
-      let gravity;
-      let drag;
-
-      /*
-        Значительно уменьшенные размеры искр.
-      */
-      if (heavy) {
-        speed = random(100, 330);
-        life = random(0.8, 1.6);
-        size = random(1.6, 3.2);
-        gravity = random(560, 920);
-        drag = random(0.975, 0.988);
-      } else if (molten) {
-        speed = random(150, 450);
-        life = random(0.6, 1.3);
-        size = random(0.9, 2.1);
-        gravity = random(390, 720);
-        drag = random(0.965, 0.984);
-      } else {
-        speed = random(330, 900);
-        life = random(0.22, 0.72);
-        size = random(0.35, 1.05);
-        gravity = random(160, 450);
-        drag = random(0.945, 0.975);
-      }
+      const life =
+        molten
+          ? random(0.55, 1.15)
+          : random(0.2, 0.6);
 
       return {
-        type,
+        molten,
         x,
         y,
-        previousX: x,
-        previousY: y,
 
         velocityX:
           Math.cos(angle) * speed +
-          tangentX * random(15, 130),
+          tangentX * random(10, 90),
 
         velocityY:
           Math.sin(angle) * speed +
-          tangentY * random(8, 95),
+          tangentY * random(5, 65),
 
-        gravity,
-        drag,
+        gravity:
+          molten
+            ? random(380, 690)
+            : random(150, 410),
+
+        drag:
+          molten
+            ? random(0.966, 0.984)
+            : random(0.946, 0.974),
+
         life,
         maximumLife: life,
-        size,
+
+        /*
+          Маленький размер искр.
+        */
+        size:
+          molten
+            ? random(0.7, 1.7)
+            : random(0.25, 0.75),
 
         orange:
-          randomInteger(125, 225)
+          randomInteger(145, 230)
       };
     }
 
     function emitParticles(position, intensity) {
       const sparkCount =
-        Math.floor(random(10, 18) * intensity);
+        Math.floor(random(8, 14) * intensity);
 
       const moltenCount =
-        Math.floor(random(3, 7) * intensity);
-
-      const heavyCount =
-        Math.floor(random(0.5, 2.2) * intensity);
+        Math.floor(random(2, 5) * intensity);
 
       for (
         let index = 0;
@@ -1130,11 +1655,11 @@
       ) {
         particles.push(
           createParticle(
-            position.x + random(-4, 4),
-            position.y + random(-4, 4),
+            position.x + random(-3, 3),
+            position.y + random(-3, 3),
             position.tangentX,
             position.tangentY,
-            "spark"
+            false
           )
         );
       }
@@ -1146,35 +1671,19 @@
       ) {
         particles.push(
           createParticle(
-            position.x + random(-5, 5),
-            position.y + random(-5, 5),
-            position.tangentX,
-            position.tangentY,
-            "molten"
-          )
-        );
-      }
-
-      for (
-        let index = 0;
-        index < heavyCount;
-        index += 1
-      ) {
-        particles.push(
-          createParticle(
             position.x + random(-4, 4),
             position.y + random(-4, 4),
             position.tangentX,
             position.tangentY,
-            "heavy"
+            true
           )
         );
       }
 
-      if (particles.length > 950) {
+      if (particles.length > 700) {
         particles.splice(
           0,
-          particles.length - 950
+          particles.length - 700
         );
       }
     }
@@ -1193,9 +1702,6 @@
           particles.splice(index, 1);
           continue;
         }
-
-        particle.previousX = particle.x;
-        particle.previousY = particle.y;
 
         particle.velocityX *= Math.pow(
           particle.drag,
@@ -1225,26 +1731,13 @@
         1
       );
 
-      const speed =
-        Math.hypot(
-          particle.velocityX,
-          particle.velocityY
-        );
-
-      const trailMultiplier =
-        clamp(speed / 390, 0.7, 2.2);
-
       const tailX =
         particle.x -
-        particle.velocityX *
-          0.012 *
-          trailMultiplier;
+        particle.velocityX * 0.008;
 
       const tailY =
         particle.y -
-        particle.velocityY *
-          0.012 *
-          trailMultiplier;
+        particle.velocityY * 0.008;
 
       ctx.save();
 
@@ -1256,28 +1749,11 @@
       ctx.lineWidth = particle.size;
 
       ctx.strokeStyle =
-        `rgba(255, ${particle.orange}, 45, ${alpha})`;
+        `rgba(255, ${particle.orange}, 40, ${alpha})`;
 
-      ctx.shadowColor = "#ff6a00";
-      ctx.shadowBlur = 6;
-      ctx.stroke();
-
-      ctx.beginPath();
-
-      ctx.arc(
-        particle.x,
-        particle.y,
-        particle.size * 0.6,
-        0,
-        Math.PI * 2
-      );
-
-      ctx.fillStyle =
-        `rgba(255, 255, 225, ${alpha})`;
-
-      ctx.shadowColor = "#ffffff";
+      ctx.shadowColor = "#ff7600";
       ctx.shadowBlur = 4;
-      ctx.fill();
+      ctx.stroke();
 
       ctx.restore();
     }
@@ -1289,107 +1765,48 @@
         1
       );
 
-      const speed =
-        Math.hypot(
-          particle.velocityX,
-          particle.velocityY
-        );
-
-      const angle =
-        Math.atan2(
-          particle.velocityY,
-          particle.velocityX
-        );
-
-      const heavy =
-        particle.type === "heavy";
-
-      const tailLength =
-        clamp(
-          speed * (heavy ? 0.017 : 0.022),
-          heavy ? 4 : 3,
-          heavy ? 13 : 10
-        );
-
       ctx.save();
-      ctx.translate(particle.x, particle.y);
-      ctx.rotate(angle);
-
-      const gradient =
-        ctx.createLinearGradient(
-          -tailLength,
-          0,
-          particle.size,
-          0
-        );
-
-      gradient.addColorStop(
-        0,
-        "rgba(255, 30, 0, 0)"
-      );
-
-      gradient.addColorStop(
-        0.4,
-        `rgba(255, 55, 0, ${alpha * 0.7})`
-      );
-
-      gradient.addColorStop(
-        0.75,
-        `rgba(255, 145, 10, ${alpha})`
-      );
-
-      gradient.addColorStop(
-        1,
-        `rgba(255, 250, 215, ${alpha})`
-      );
-
-      ctx.beginPath();
-
-      ctx.ellipse(
-        -tailLength * 0.25,
-        0,
-        tailLength,
-        particle.size,
-        0,
-        0,
-        Math.PI * 2
-      );
-
-      ctx.fillStyle = gradient;
-      ctx.shadowColor =
-        heavy ? "#ff3500" : "#ff7900";
-
-      ctx.shadowBlur =
-        heavy ? 9 : 6;
-
-      ctx.fill();
 
       ctx.beginPath();
 
       ctx.arc(
-        0,
-        0,
-        particle.size * 0.7,
+        particle.x,
+        particle.y,
+        particle.size,
         0,
         Math.PI * 2
       );
 
       ctx.fillStyle =
-        `rgba(255, 248, 200, ${alpha})`;
+        `rgba(255, 150, 24, ${alpha})`;
 
-      ctx.shadowColor = "#ffffff";
-      ctx.shadowBlur = 5;
+      ctx.shadowColor = "#ff6000";
+      ctx.shadowBlur = 6;
       ctx.fill();
 
+      ctx.beginPath();
+
+      ctx.arc(
+        particle.x,
+        particle.y,
+        particle.size * 0.42,
+        0,
+        Math.PI * 2
+      );
+
+      ctx.fillStyle =
+        `rgba(255, 255, 220, ${alpha})`;
+
+      ctx.fill();
       ctx.restore();
     }
 
     function drawParticles() {
       for (const particle of particles) {
-        if (particle.type === "spark") {
-          drawSpark(particle);
-        } else {
+        if (particle.molten) {
           drawMoltenParticle(particle);
+        } else {
+          drawSpark(particle);
         }
       }
     }
@@ -1402,30 +1819,30 @@
         position.tangentX;
 
       const flicker =
-        random(0.72, 1.22);
+        random(0.72, 1.18);
 
       ctx.save();
 
       ctx.beginPath();
 
       ctx.moveTo(
-        position.x - normalX * 9,
-        position.y - normalY * 9
+        position.x - normalX * 7,
+        position.y - normalY * 7
       );
 
       ctx.lineTo(
-        position.x + normalX * 9,
-        position.y + normalY * 9
+        position.x + normalX * 7,
+        position.y + normalY * 7
       );
 
       ctx.lineCap = "round";
-      ctx.lineWidth = random(1.1, 2.5);
+      ctx.lineWidth = random(0.9, 2);
 
       ctx.strokeStyle =
-        "rgba(210, 250, 255, 0.98)";
+        "rgba(220, 252, 255, 0.98)";
 
-      ctx.shadowColor = "#4fe5ff";
-      ctx.shadowBlur = 15 * flicker;
+      ctx.shadowColor = "#39dfff";
+      ctx.shadowBlur = 12 * flicker;
       ctx.stroke();
 
       const glow =
@@ -1435,32 +1852,27 @@
           0,
           position.x,
           position.y,
-          42 * flicker
+          31 * flicker
         );
 
       glow.addColorStop(
         0,
-        "rgba(255, 255, 255, 1)"
+        "rgba(255,255,255,1)"
       );
 
       glow.addColorStop(
-        0.1,
-        "rgba(220, 252, 255, 1)"
+        0.18,
+        "rgba(185,241,255,0.9)"
       );
 
       glow.addColorStop(
-        0.28,
-        "rgba(58, 210, 255, 0.88)"
-      );
-
-      glow.addColorStop(
-        0.56,
-        "rgba(255, 112, 0, 0.24)"
+        0.5,
+        "rgba(69,205,255,0.35)"
       );
 
       glow.addColorStop(
         1,
-        "rgba(255, 45, 0, 0)"
+        "rgba(255,105,0,0)"
       );
 
       ctx.beginPath();
@@ -1468,7 +1880,7 @@
       ctx.arc(
         position.x,
         position.y,
-        42 * flicker,
+        31 * flicker,
         0,
         Math.PI * 2
       );
@@ -1481,17 +1893,34 @@
       ctx.arc(
         position.x,
         position.y,
-        3.8 * flicker,
+        2.8 * flicker,
         0,
         Math.PI * 2
       );
 
       ctx.fillStyle = "#ffffff";
-      ctx.shadowColor = "#d6fbff";
-      ctx.shadowBlur = 20;
+      ctx.shadowColor = "#d9fbff";
+      ctx.shadowBlur = 15;
       ctx.fill();
 
       ctx.restore();
+    }
+
+    function stopWelding() {
+      animationNumber += 1;
+      cancelAnimationFrame(animationFrame);
+
+      particles = [];
+
+      weldingButton.classList.remove("welding");
+      canvas.classList.remove("active");
+
+      ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
     }
 
     function startWelding() {
@@ -1518,13 +1947,13 @@
 
       const duration =
         reducedMotion.matches
-          ? 900
-          : random(3200, 4700);
+          ? 850
+          : random(3100, 4400);
 
-      const particleEndDelay =
+      const fadeDelay =
         reducedMotion.matches
-          ? 300
-          : 1550;
+          ? 250
+          : 1250;
 
       let previousTime =
         performance.now();
@@ -1556,12 +1985,12 @@
           clamp(elapsed / duration, 0, 1);
 
         const fadeStart =
-          duration + 350;
+          duration + 260;
 
         const fadeEnd =
-          duration + particleEndDelay;
+          duration + fadeDelay;
 
-        const finalOpacity =
+        const opacity =
           elapsed <= fadeStart
             ? 1
             : clamp(
@@ -1583,13 +2012,12 @@
         );
 
         /*
-          Рисуется исключительно оставшийся
-          позади сварки горячий след.
+          Только след позади сварочной точки.
         */
         drawWeldedTrail(
           path,
           progress,
-          finalOpacity
+          opacity
         );
 
         if (progress < 1) {
@@ -1600,19 +2028,16 @@
 
           if (
             !reducedMotion.matches &&
-            currentTime - lastEmissionTime > 16
+            currentTime - lastEmissionTime > 19
           ) {
-            const largeBurst =
-              Math.random() < 0.15;
-
-            const intensity =
-              largeBurst
-                ? random(1.4, 2)
-                : random(0.75, 1.1);
+            const burst =
+              Math.random() < 0.12;
 
             emitParticles(
               position,
-              intensity
+              burst
+                ? random(1.25, 1.65)
+                : random(0.65, 0.95)
             );
 
             lastEmissionTime =
@@ -1659,36 +2084,7 @@
 
     window.addEventListener(
       "resize",
-      () => {
-        if (
-          !canvas.classList.contains("active")
-        ) {
-          return;
-        }
-
-        animationNumber += 1;
-
-        cancelAnimationFrame(
-          animationFrame
-        );
-
-        particles = [];
-
-        weldingButton.classList.remove(
-          "welding"
-        );
-
-        canvas.classList.remove(
-          "active"
-        );
-
-        ctx.clearRect(
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        );
-      }
+      stopWelding
     );
   </script>
 </body>
